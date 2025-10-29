@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.I230011_i230646_i230509_MedQue">
         <activity
+            android:name=".SearchDoctors"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
