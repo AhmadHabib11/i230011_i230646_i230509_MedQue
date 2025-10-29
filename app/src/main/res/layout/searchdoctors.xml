@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@color/background_light_gray"
     android:id="@+id/searchdoctors">
 
     <!-- Header Section -->
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
@@ -29,8 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="All Doctors"
-            android:textColor="#374151"
+            android:text="@string/all_doctors"
+            android:textColor="@color/header_text"
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -61,8 +61,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="Search doctor..."
-            android:textColor="#A0A0A0"
+            android:text="@string/search_doctor_hint"
+            android:textColor="@color/text_hint"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -91,8 +91,8 @@
                 android:paddingTop="12dp"
                 android:paddingEnd="32dp"
                 android:paddingBottom="12dp"
-                android:text="All"
-                android:textColor="#FFFFFF"
+                android:text="@string/all"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -106,8 +106,8 @@
                 android:paddingTop="12dp"
                 android:paddingEnd="28dp"
                 android:paddingBottom="12dp"
-                android:text="Gynecologist"
-                android:textColor="#1B492B"
+                android:text="@string/gynecologist"
+                android:textColor="@color/primary_green"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -121,8 +121,8 @@
                 android:paddingTop="12dp"
                 android:paddingEnd="28dp"
                 android:paddingBottom="12dp"
-                android:text="Cardiologist"
-                android:textColor="#1B492B"
+                android:text="@string/cardiologist"
+                android:textColor="@color/primary_green"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -136,8 +136,8 @@
                 android:paddingTop="12dp"
                 android:paddingEnd="28dp"
                 android:paddingBottom="12dp"
-                android:text="Dermatologist"
-                android:textColor="#1B492B"
+                android:text="@string/dermatologist"
+                android:textColor="@color/primary_green"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -159,16 +159,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="532 founds"
-            android:textColor="#1F2A37"
+            android:text="@string/results_found"
+            android:textColor="@color/text_primary"
             android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Default"
-            android:textColor="#6B7280"
+            android:text="@string/sort_default"
+            android:textColor="@color/text_tertiary"
             android:textSize="16sp" />
 
         <ImageView
@@ -202,7 +202,7 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="@color/white">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -227,8 +227,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dr. David Patel"
-                            android:textColor="#1F2A37"
+                            android:text="@string/doctor1_name"
+                            android:textColor="@color/text_primary"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -236,8 +236,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Cardiologist"
-                            android:textColor="#666666"
+                            android:text="@string/doctor1_specialty"
+                            android:textColor="@color/text_secondary"
                             android:textSize="16sp" />
 
                         <LinearLayout
@@ -256,8 +256,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
-                                android:text="Cardiology Center, USA"
-                                android:textColor="#666666"
+                                android:text="@string/doctor1_location"
+                                android:textColor="@color/text_secondary"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -277,8 +277,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
-                                android:text="5"
-                                android:textColor="#6B7280"
+                                android:text="@string/doctor1_rating"
+                                android:textColor="@color/text_tertiary"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
 
@@ -287,13 +287,13 @@
                                 android:layout_height="4dp"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginEnd="8dp"
-                                android:background="#CCCCCC" />
+                                android:background="@color/divider_gray" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1,872 Reviews"
-                                android:textColor="#6B7280"
+                                android:text="@string/doctor1_reviews"
+                                android:textColor="@color/text_tertiary"
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -314,7 +314,7 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="@color/white">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -339,8 +339,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dr. Jessica Turner"
-                            android:textColor="#1F2A37"
+                            android:text="@string/doctor2_name"
+                            android:textColor="@color/text_primary"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -348,8 +348,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Gynecologist"
-                            android:textColor="#666666"
+                            android:text="@string/doctor2_specialty"
+                            android:textColor="@color/text_secondary"
                             android:textSize="16sp" />
 
                         <LinearLayout
@@ -368,8 +368,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
-                                android:text="Women's Clinic,Seattle,USA"
-                                android:textColor="#666666"
+                                android:text="@string/doctor2_location"
+                                android:textColor="@color/text_secondary"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -389,8 +389,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
-                                android:text="4.9"
-                                android:textColor="#6B7280"
+                                android:text="@string/doctor2_rating"
+                                android:textColor="@color/text_tertiary"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
 
@@ -399,13 +399,13 @@
                                 android:layout_height="4dp"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginEnd="8dp"
-                                android:background="#CCCCCC" />
+                                android:background="@color/divider_gray" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="127 Reviews"
-                                android:textColor="#6B7280"
+                                android:text="@string/doctor2_reviews"
+                                android:textColor="@color/text_tertiary"
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -426,7 +426,7 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="@color/white">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -451,8 +451,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dr. Michael Johnson"
-                            android:textColor="#1F2A37"
+                            android:text="@string/doctor3_name"
+                            android:textColor="@color/text_primary"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -460,8 +460,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Orthopedic Surgery"
-                            android:textColor="#666666"
+                            android:text="@string/doctor3_specialty"
+                            android:textColor="@color/text_secondary"
                             android:textSize="16sp" />
 
                         <LinearLayout
@@ -480,8 +480,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
-                                android:text="Maple Associates, NY,USA"
-                                android:textColor="#666666"
+                                android:text="@string/doctor3_location"
+                                android:textColor="@color/text_secondary"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -501,8 +501,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
-                                android:text="4.7"
-                                android:textColor="#6B7280"
+                                android:text="@string/doctor3_rating"
+                                android:textColor="@color/text_tertiary"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
 
@@ -511,13 +511,13 @@
                                 android:layout_height="4dp"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginEnd="8dp"
-                                android:background="#CCCCCC" />
+                                android:background="@color/divider_gray" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="5,223 Reviews"
-                                android:textColor="#6B7280"
+                                android:text="@string/doctor3_reviews"
+                                android:textColor="@color/text_tertiary"
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -538,7 +538,7 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="@color/white">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -563,8 +563,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dr. Emily Walker"
-                            android:textColor="#1F2A37"
+                            android:text="@string/doctor4_name"
+                            android:textColor="@color/text_primary"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -572,8 +572,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Pediatrics"
-                            android:textColor="#666666"
+                            android:text="@string/doctor4_specialty"
+                            android:textColor="@color/text_secondary"
                             android:textSize="16sp" />
 
                         <LinearLayout
@@ -592,8 +592,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
-                                android:text="Serenity Pediatrics Clinic"
-                                android:textColor="#666666"
+                                android:text="@string/doctor4_location"
+                                android:textColor="@color/text_secondary"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -613,8 +613,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
-                                android:text="5"
-                                android:textColor="#6B7280"
+                                android:text="@string/doctor4_rating"
+                                android:textColor="@color/text_tertiary"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
 
@@ -623,13 +623,13 @@
                                 android:layout_height="4dp"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginEnd="8dp"
-                                android:background="#CCCCCC" />
+                                android:background="@color/divider_gray" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="405 Reviews"
-                                android:textColor="#6B7280"
+                                android:text="@string/doctor4_reviews"
+                                android:textColor="@color/text_tertiary"
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -651,7 +651,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:elevation="8dp"
         android:orientation="horizontal"
         android:paddingTop="15dp"

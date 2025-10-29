@@ -1,3 +1,47 @@
 <resources>
     <string name="app_name">i230011_i230646_i230509_MedQue</string>
+
+    <!-- Header -->
+    <string name="all_doctors">All Doctors</string>
+
+    <!-- Search -->
+    <string name="search_doctor_hint">Search doctor...</string>
+
+    <!-- Specialty Filters -->
+    <string name="all">All</string>
+    <string name="gynecologist">Gynecologist</string>
+    <string name="cardiologist">Cardiologist</string>
+    <string name="dermatologist">Dermatologist</string>
+
+    <!-- Results -->
+    <string name="results_found">532 founds</string>
+    <string name="sort_default">Default</string>
+
+    <!-- Doctor 1 -->
+    <string name="doctor1_name">Dr. David Patel</string>
+    <string name="doctor1_specialty">Cardiologist</string>
+    <string name="doctor1_location">Cardiology Center, USA</string>
+    <string name="doctor1_rating">5</string>
+    <string name="doctor1_reviews">1,872 Reviews</string>
+
+    <!-- Doctor 2 -->
+    <string name="doctor2_name">Dr. Jessica Turner</string>
+    <string name="doctor2_specialty">Gynecologist</string>
+    <string name="doctor2_location">Women\'s Clinic,Seattle,USA</string>
+    <string name="doctor2_rating">4.9</string>
+    <string name="doctor2_reviews">127 Reviews</string>
+
+    <!-- Doctor 3 -->
+    <string name="doctor3_name">Dr. Michael Johnson</string>
+    <string name="doctor3_specialty">Orthopedic Surgery</string>
+    <string name="doctor3_location">Maple Associates, NY,USA</string>
+    <string name="doctor3_rating">4.7</string>
+    <string name="doctor3_reviews">5,223 Reviews</string>
+
+    <!-- Doctor 4 -->
+    <string name="doctor4_name">Dr. Emily Walker</string>
+    <string name="doctor4_specialty">Pediatrics</string>
+    <string name="doctor4_location">Serenity Pediatrics Clinic</string>
+    <string name="doctor4_rating">5</string>
+    <string name="doctor4_reviews">405 Reviews</string>
 </resources>

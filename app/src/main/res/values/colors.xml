@@ -1,5 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Background Colors -->
+    <color name="background_light_gray">#F5F5F5</color>
+
+    <!-- Header Colors -->
+    <color name="header_text">#374151</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#1F2A37</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_tertiary">#6B7280</color>
+    <color name="text_hint">#A0A0A0</color>
+    <color name="text_muted">#999999</color>
+
+    <!-- Brand Colors -->
+    <color name="primary_green">#1B492B</color>
+
+    <!-- UI Element Colors -->
+    <color name="divider_gray">#CCCCCC</color>
 </resources>
