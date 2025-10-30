@@ -74,4 +74,33 @@
     <string name="doctor_sarah_name">Dr. Sarah Johnson</string>
     <string name="doctor_sarah_specialty">Gynecologist</string>
     <string name="doctor_sarah_location">Women\'s Health Clinic</string>
+
+    <!-- Notification Screen -->
+    <string name="notification">Notification</string>
+    <string name="new_badge">1 New</string>
+    <string name="back_button">Back</string>
+    <string name="today">TODAY</string>
+    <string name="yesterday">YESTERDAY</string>
+    <string name="mark_all_as_read">Mark all as read</string>
+
+    <!-- Notification Titles -->
+    <string name="appointment_success">Appointment Success</string>
+    <string name="appointment_cancelled">Appointment Cancelled</string>
+    <string name="scheduled_changed">Scheduled Changed</string>
+    <string name="report_upload_success">Report Upload success</string>
+    <string name="report_upload_failed">Couldn\'t upload your report</string>
+
+    <!-- Notification Messages -->
+    <string name="appointment_success_message">You have successfully booked your appointment with Dr. Emily Walker.</string>
+    <string name="appointment_cancelled_message">You have successfully cancelled your appointment with Dr. David Patel.</string>
+    <string name="scheduled_changed_message">You have successfully changes your appointment with Dr. Jesica Turner.</string>
+    <string name="appointment_success_david">You have successfully booked your appointment with Dr. David Patel.</string>
+    <string name="report_upload_success_message">You have successfully uploaded your report in tab. Book an appointment with a doctor through these quick steps...</string>
+    <string name="report_upload_failed_message">Your report could not be uploaded. Please try again later.</string>
+
+    <!-- Time -->
+    <string name="time_1h">1h</string>
+    <string name="time_2h">2h</string>
+    <string name="time_8h">8h</string>
+    <string name="time_1d">1d</string>
 </resources>

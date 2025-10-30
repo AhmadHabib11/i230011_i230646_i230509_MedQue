@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="24dp"
         android:text="@string/my_bookings"
         android:textColor="@color/header_text"
         android:textSize="20sp"

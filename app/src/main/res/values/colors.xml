@@ -32,4 +32,9 @@
 
     <!-- Additional Background Colors -->
     <color name="background_white">#FFFFFF</color>
+
+    <!-- Notification Background Colors -->
+    <color name="notification_bg_light_green">#EEF6F3</color>
+
+
 </resources>
