@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.I230011_i230646_i230509_MedQue">
         <activity
+            android:name=".Search_cardiologist"
+            android:exported="false" />
+        <activity
+            android:name=".upload_reports"
+            android:exported="false" />
+        <activity
             android:name=".home"
             android:exported="false" />
         <activity
@@ -24,7 +30,7 @@
             android:name=".SearchDoctors"
             android:exported="false" />
         <activity
-            android:name=".upload_reports"
+            android:name=".Search_gyn"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
