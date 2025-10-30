@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class SearchDoctors : AppCompatActivity() {
+class CompletedAppointments : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.searchdoctors)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.search_doctors)) { v, insets ->
+        setContentView(R.layout.completedappointments)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.completed_appointments)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets

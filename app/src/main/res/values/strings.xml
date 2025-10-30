@@ -3,7 +3,6 @@
 
     <!-- Header -->
     <string name="all_doctors">All Doctors</string>
-    <string name="my_bookings">My Bookings</string>
 
     <!-- Search -->
     <string name="search_doctor_hint">Search doctor...</string>
@@ -14,20 +13,9 @@
     <string name="cardiologist">Cardiologist</string>
     <string name="dermatologist">Dermatologist</string>
 
-    <!-- Tabs -->
-    <string name="tab_upcoming">Upcoming</string>
-    <string name="tab_completed">Completed</string>
-    <string name="tab_cancelled">Cancelled</string>
-
     <!-- Results -->
     <string name="results_found">532 founds</string>
     <string name="sort_default">Default</string>
-
-    <!-- Booking Details -->
-    <string name="booking_date_time">March 12, 2023 - 11.00 AM</string>
-    <string name="doctor_sarah_name">Dr. Sarah Johnson</string>
-    <string name="doctor_sarah_specialty">Gynecologist</string>
-    <string name="doctor_sarah_location">Women\'s Health Clinic</string>
 
     <!-- Doctor 1 -->
     <string name="doctor1_name">Dr. David Patel</string>
@@ -56,4 +44,34 @@
     <string name="doctor4_location">Serenity Pediatrics Clinic</string>
     <string name="doctor4_rating">5</string>
     <string name="doctor4_reviews">405 Reviews</string>
+
+    <!-- My Bookings Screen -->
+    <string name="my_bookings">My Bookings</string>
+    <string name="tab_upcoming">Upcoming</string>
+    <string name="tab_completed">Completed</string>
+    <string name="tab_cancelled">Cancelled</string>
+
+    <!-- Booking Card -->
+    <string name="booking_datetime">March 12, 2023 - 11.00 AM</string>
+    <string name="doctor5_name">Dr. Sarah Johnson</string>
+    <string name="doctor5_specialty">Gynecologist</string>
+    <string name="doctor5_location">Women\'s Health Clinic</string>
+
+    <string name="booking2_datetime">March 2, 2023 - 12.00 AM</string>
+    <string name="doctor7_name">Dr. Michael Chang</string>
+    <string name="doctor7_specialty">Cardiologist</string>
+    <string name="doctor7_location">HeartCare Center, USA</string>
+
+    <string name="booking3_datetime">Feb 2, 2023 - 9.00 AM</string>
+    <string name="doctor8_name">Dr. James Wilson</string>
+    <string name="doctor8_specialty">Cardiologist</string>
+    <string name="doctor8_location">Heart Health Clinic</string>
+
+    <string name="rebook_button">Re-Book</string>
+
+    <!-- Cancelled Appointments -->
+    <string name="booking_date_time">March 12, 2023 - 11.00 AM</string>
+    <string name="doctor_sarah_name">Dr. Sarah Johnson</string>
+    <string name="doctor_sarah_specialty">Gynecologist</string>
+    <string name="doctor_sarah_location">Women\'s Health Clinic</string>
 </resources>

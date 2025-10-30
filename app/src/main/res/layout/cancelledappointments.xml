@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/manageappointments"
+    android:id="@+id/cancelled_appointments"
     android:background="@color/background_white">
 
     <!-- Header -->
@@ -97,11 +97,21 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!-- Separator under tabs -->
+    <ImageView
+        android:id="@+id/tabSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabLayout"
+        android:layout_marginTop="0dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/separator" />
+
     <!-- Content Area -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tabLayout"
+        android:layout_below="@id/tabSeparator"
         android:layout_above="@id/bottomNavigation"
         android:layout_marginTop="24dp"
         android:scrollbars="none">
