@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.I230011_i230646_i230509_MedQue">
         <activity
-            android:name=".EditProfile"
+            android:name=".Profile"
             android:exported="false" />
         <activity
             android:name=".Notifications"
