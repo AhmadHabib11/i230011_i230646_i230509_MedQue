@@ -12,6 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.I230011_i230646_i230509_MedQue">
         <activity
+            android:name=".EditProfile"
+            android:exported="true" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
+        <activity
             android:name=".Profile"
             android:exported="false" />
         <activity

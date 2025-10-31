@@ -110,4 +110,13 @@
     <string name="profile_phone">+123 856479683</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="log_out">Log Out</string>
+
+    <!-- Edit Profile Screen -->
+    <string name="edit_profile_title">Edit Profile</string>
+    <string name="full_name_hint">Michael Jordan</string>
+    <string name="nickname_hint">Nickname</string>
+    <string name="email_hint">name@example.com</string>
+    <string name="dob_hint">Date of Birth</string>
+    <string name="gender_hint">Gender</string>
+    <string name="save_button">Save</string>
 </resources>
