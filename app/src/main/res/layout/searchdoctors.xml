@@ -283,8 +283,8 @@
                                 android:textStyle="bold" />
 
                             <View
-                                android:layout_width="4dp"
-                                android:layout_height="4dp"
+                                android:layout_width="1dp"
+                                android:layout_height="15dp"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginEnd="8dp"
                                 android:background="@color/divider_gray" />
@@ -395,8 +395,8 @@
                                 android:textStyle="bold" />
 
                             <View
-                                android:layout_width="4dp"
-                                android:layout_height="4dp"
+                                android:layout_width="1dp"
+                                android:layout_height="15dp"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginEnd="8dp"
                                 android:background="@color/divider_gray" />
@@ -507,8 +507,8 @@
                                 android:textStyle="bold" />
 
                             <View
-                                android:layout_width="4dp"
-                                android:layout_height="4dp"
+                                android:layout_width="1dp"
+                                android:layout_height="15dp"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginEnd="8dp"
                                 android:background="@color/divider_gray" />
@@ -619,8 +619,8 @@
                                 android:textStyle="bold" />
 
                             <View
-                                android:layout_width="4dp"
-                                android:layout_height="4dp"
+                                android:layout_width="1dp"
+                                android:layout_height="15dp"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginEnd="8dp"
                                 android:background="@color/divider_gray" />

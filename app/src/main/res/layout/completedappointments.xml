@@ -193,7 +193,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:text="@string/doctor5_specialty"
-                                android:textColor="@color/text_tertiary"
+                                android:textColor="@color/text_secondary"
                                 android:textSize="14sp" />
 
                             <LinearLayout
@@ -213,7 +213,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="6dp"
                                     android:text="@string/doctor5_location"
-                                    android:textColor="@color/text_tertiary"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -313,7 +313,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:text="@string/doctor7_specialty"
-                                android:textColor="@color/text_tertiary"
+                                android:textColor="@color/text_secondary"
                                 android:textSize="14sp" />
 
                             <LinearLayout
@@ -333,7 +333,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="6dp"
                                     android:text="@string/doctor7_location"
-                                    android:textColor="@color/text_tertiary"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -433,7 +433,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:text="@string/doctor8_specialty"
-                                android:textColor="@color/text_tertiary"
+                                android:textColor="@color/text_secondary"
                                 android:textSize="14sp" />
 
                             <LinearLayout
@@ -453,7 +453,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="6dp"
                                     android:text="@string/doctor8_location"
-                                    android:textColor="@color/text_tertiary"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>

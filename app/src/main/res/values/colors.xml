@@ -10,10 +10,9 @@
 
     <!-- Text Colors -->
     <color name="text_primary">#1F2A37</color>
-    <color name="text_secondary">#666666</color>
+    <color name="text_secondary">#4B5563</color>
     <color name="text_tertiary">#6B7280</color>
-    <color name="text_hint">#A0A0A0</color>
-    <color name="text_muted">#999999</color>
+    <color name="text_hint">#9CA3AF</color>
 
     <!-- Brand Colors -->
     <color name="primary_green">#1B492B</color>
@@ -23,7 +22,7 @@
 
     <!-- Tab Colors -->
     <color name="tab_inactive">#9CA3AF</color>
-    <color name="text_inactive_tab">#9CA3AF</color>
+
     <color name="tab_indicator">#1B492B</color>
 
     <!-- Booking Card Colors -->

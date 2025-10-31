@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:text="@string/today"
-                        android:textColor="@color/text_secondary"
+                        android:textColor="@color/text_tertiary"
                         android:textSize="14sp"
                         android:textStyle="normal" />
 
@@ -167,7 +167,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="@string/appointment_success_message"
-                            android:textColor="@color/text_secondary"
+                            android:textColor="@color/text_tertiary"
                             android:textSize="14sp"
                             android:lineSpacingExtra="4dp" />
                     </LinearLayout>
@@ -236,7 +236,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="@string/appointment_cancelled_message"
-                            android:textColor="@color/text_secondary"
+                            android:textColor="@color/text_tertiary"
                             android:textSize="14sp"
                             android:lineSpacingExtra="4dp" />
                     </LinearLayout>
@@ -304,7 +304,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="@string/scheduled_changed_message"
-                            android:textColor="@color/text_secondary"
+                            android:textColor="@color/text_tertiary"
                             android:textSize="14sp"
                             android:lineSpacingExtra="4dp" />
                     </LinearLayout>
@@ -333,7 +333,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:text="@string/yesterday"
-                        android:textColor="@color/text_secondary"
+                        android:textColor="@color/text_tertiary"
                         android:textSize="14sp"
                         android:textStyle="normal" />
 
@@ -409,7 +409,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="@string/appointment_success_david"
-                            android:textColor="@color/text_secondary"
+                            android:textColor="@color/text_tertiary"
                             android:textSize="14sp"
                             android:lineSpacingExtra="4dp" />
                     </LinearLayout>
@@ -468,7 +468,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="@string/report_upload_success_message"
-                            android:textColor="@color/text_secondary"
+                            android:textColor="@color/text_tertiary"
                             android:textSize="14sp"
                             android:lineSpacingExtra="4dp" />
                     </LinearLayout>
