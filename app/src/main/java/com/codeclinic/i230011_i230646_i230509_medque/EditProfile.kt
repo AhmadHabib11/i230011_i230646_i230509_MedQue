@@ -38,12 +38,16 @@ class EditProfile : AppCompatActivity() {
 
         initializeViews()
         setupListeners()
+
+
     }
+
+
 
     private fun initializeViews() {
         genderLayout = findViewById(R.id.genderLayout)
         tvGender = findViewById(R.id.tvGender)
-        //btnBack = findViewById(R.id.btnBack)
+        btnBack = findViewById(R.id.btnBack)
         dobLayout = findViewById(R.id.dobLayout)
         tvDateOfBirth = findViewById(R.id.tvDateOfBirth)
     }
@@ -60,9 +64,9 @@ class EditProfile : AppCompatActivity() {
         }
 
         // Back button
-        //btnBack.setOnClickListener {
-          //  finish()
-        //}
+        btnBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun showGenderPopup(anchor: View) {

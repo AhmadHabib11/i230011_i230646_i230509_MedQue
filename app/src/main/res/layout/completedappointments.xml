@@ -500,6 +500,7 @@
         android:paddingBottom="15dp">
 
         <LinearLayout
+            android:id="@+id/navHome"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -513,6 +514,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -526,6 +528,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navCalendar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -539,6 +542,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navProfile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
