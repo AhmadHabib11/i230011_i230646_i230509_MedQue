@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/signup"
+    android:id="@+id/signin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Signin"
@@ -46,12 +46,12 @@
             android:layout_height="0dp"
             android:layout_weight="0.5" />
 
-        <!-- Create Account Title -->
+        <!-- Welcome Back Title -->
         <TextView
-            android:id="@+id/createAccountTitle"
+            android:id="@+id/welcomeBackTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create Account"
+            android:text="Hi, Welcome Back!"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:text="We are here to help you!"
+            android:text="Hope you're doing fine"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
@@ -72,27 +72,11 @@
             android:layout_height="0dp"
             android:layout_weight="0.5" />
 
-        <!-- Name Input -->
-        <EditText
-            android:id="@+id/nameInput"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:hint="Your Name"
-            android:inputType="textPersonName"
-            android:textSize="16sp"
-            android:padding="14dp"
-            android:paddingLeft="48dp"
-            android:background="@drawable/signupedittextbg"
-            android:drawableLeft="@drawable/usericon"
-            android:drawablePadding="12dp"
-            android:textColorHint="#999999" />
-
         <!-- Email Input -->
         <EditText
             android:id="@+id/emailInput"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_marginTop="12dp"
             android:hint="Your Email"
             android:inputType="textEmailAddress"
             android:textSize="16sp"
@@ -119,18 +103,20 @@
             android:drawablePadding="12dp"
             android:textColorHint="#999999" />
 
+
+
         <!-- Spacer -->
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5" />
 
-        <!-- Create Account Button -->
+        <!-- Sign In Button -->
         <Button
-            android:id="@+id/createAccountButton"
+            android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="62dp"
-            android:text="Create Account"
+            android:text="Sign In"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -191,7 +177,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Continue with Google"
+                android:text="Sign in with Google"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -224,12 +210,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Continue with Facebook"
+                android:text="Sign in with Facebook"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <!-- Forgot Password Link -->
+        <TextView
+            android:id="@+id/forgotPasswordLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Forgot Password?"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true" />
 
         <!-- Spacer -->
         <View
@@ -237,7 +235,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.3" />
 
-        <!-- Sign In Link -->
+        <!-- Sign Up Link -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -246,15 +244,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Do you have an account? "
+                android:text="Don't have an account yet?"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/signInLink"
+                android:id="@+id/signUpLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign In"
+                android:text=" Sign up"
                 android:textColor="@color/darkgreen"
                 android:textSize="16sp"
                 android:textStyle="bold"
