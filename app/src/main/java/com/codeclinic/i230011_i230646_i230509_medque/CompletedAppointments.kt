@@ -23,8 +23,8 @@ class CompletedAppointments : AppCompatActivity() {
         // Search icon click listener
         val navSearch = findViewById<LinearLayout>(R.id.navSearch)
         navSearch.setOnClickListener {
-            val intent = Intent(this, SearchDoctors::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, SearchDoctors::class.java)
+//            startActivity(intent)
         }
 
         // Calendar navigation click listener
