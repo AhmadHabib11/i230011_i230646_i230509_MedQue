@@ -173,9 +173,7 @@
                 android:textSize="16sp"
                 android:paddingStart="16dp"
                 android:paddingEnd="50dp"
-                android:inputType="none"
-                android:focusable="false"
-                android:clickable="false" />
+                 />
 
             <ImageView
                 android:id="@+id/ivGenderDropdown"
