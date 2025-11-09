@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#999999"
+    tools:context=".Appointment_done">
+
+    <!-- Confirmation Dialog Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp">
+
+            <!-- Success Icon Circle -->
+            <RelativeLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp">
+
+                <!-- Outer Circle (Light Green) -->
+                <View
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/circle_lightgreen" />
+
+                <!-- Inner Circle (Medium Green) -->
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/circle_mediumgreen" />
+
+                <!-- Checkmark Icon -->
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="Success"
+                    android:src="@drawable/check" />
+
+            </RelativeLayout>
+
+            <!-- Congratulations Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Congratulations!"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <!-- Confirmation Message -->
+            <TextView
+                android:id="@+id/tv_confirmation_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="Your appointment with Dr. David Patel is confirmed for June 30, 2023, at 10:00 AM."
+                android:textColor="#666666"
+                android:textSize="14sp" />
+
+            <!-- Done Button -->
+
+            <TextView
+            android:id="@+id/btn_done"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+            android:background="@drawable/selected"
+            android:paddingLeft="90dp"
+            android:paddingTop="15dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp"
+            android:text="Done"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+            <!-- Edit Appointment Link -->
+            <TextView
+                android:id="@+id/tv_edit_appointment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Edit your appointment"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
