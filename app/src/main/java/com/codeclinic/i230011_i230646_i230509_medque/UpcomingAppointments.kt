@@ -41,6 +41,19 @@ class UpcomingAppointments : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val navHome = findViewById<LinearLayout>(R.id.navHome)
+        navHome.setOnClickListener {
+            val intent = Intent(this, Home::class.java)
+            startActivity(intent)
+        }
+
+        // Search icon click listener
+        val navSearch = findViewById<LinearLayout>(R.id.navSearch)
+        navSearch.setOnClickListener {
+            val intent = Intent(this, Searchdoctor::class.java)
+            startActivity(intent)
+        }
+
         // Profile navigation click listener
         val navProfile = findViewById<LinearLayout>(R.id.navProfile)
         navProfile.setOnClickListener {

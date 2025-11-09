@@ -3,6 +3,7 @@ package com.codeclinic.i230011_i230646_i230509_medque
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -41,6 +42,20 @@ class Search_cardiologist : AppCompatActivity() {
 
         home_btn.setOnClickListener {
             val intent = Intent(this, Home::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        val btn_all= findViewById<TextView>(R.id.btnAll)
+        btn_all.setOnClickListener {
+            val intent = Intent(this, Searchdoctor::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        val gynbtn= findViewById<TextView>(R.id.btnGynecologist)
+        gynbtn.setOnClickListener {
+            val intent = Intent(this, Search_gyn::class.java)
             startActivity(intent)
             finish()
         }

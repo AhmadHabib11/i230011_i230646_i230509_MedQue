@@ -23,8 +23,8 @@ class CancelledAppointments : AppCompatActivity() {
         // Search icon click listener
         val navSearch = findViewById<LinearLayout>(R.id.navSearch)
         navSearch.setOnClickListener {
-//            val intent = Intent(this, SearchDoctors::class.java)
-//            startActivity(intent)
+            val intent = Intent(this, Searchdoctor::class.java)
+            startActivity(intent)
         }
 
         // Calendar navigation click listener
@@ -41,10 +41,21 @@ class CancelledAppointments : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val navHome = findViewById<LinearLayout>(R.id.navHome)
+        navHome.setOnClickListener {
+            val intent = Intent(this, Home::class.java)
+            startActivity(intent)
+        }
+
         // Completed tab click listener
         val tabCompleted = findViewById<TextView>(R.id.tabCompleted)
         tabCompleted.setOnClickListener {
             val intent = Intent(this, CompletedAppointments::class.java)
+            startActivity(intent)
+        }
+        val tabUpcoming = findViewById<TextView>(R.id.tabUpcoming)
+        tabUpcoming.setOnClickListener {
+            val intent = Intent(this, UpcomingAppointments::class.java)
             startActivity(intent)
         }
     }
