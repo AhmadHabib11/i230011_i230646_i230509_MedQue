@@ -12,7 +12,34 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.I230011_i230646_i230509_MedQue">
         <activity
-            android:name=".MainActivity"
+            android:name=".UpcomingAppointments"
+            android:exported="false" />
+        <activity
+            android:name=".ResetPassword"
+            android:exported="false" />
+        <activity
+            android:name=".Verification"
+            android:exported="false" />
+        <activity
+            android:name=".ForgotPassword"
+            android:exported="false" />
+        <activity
+            android:name=".Signin"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileSetUpSuccess"
+            android:exported="false" />
+        <activity
+            android:name=".SetUpProfile"
+            android:exported="false" />
+        <activity
+            android:name=".Signup"
+            android:exported="false" />
+        <activity
+            android:name=".Onboarding"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +47,48 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LogOut"
+            android:exported="false" />
+        <activity
+            android:name=".EditProfile"
+            android:exported="false" />
+        <activity
+            android:name=".Profile"
+            android:exported="false" />
+        <activity
+            android:name=".Notifications"
+            android:exported="false" />
+        <activity
+            android:name=".Home"
+            android:exported="false" />
+        <activity
+            android:name=".CompletedAppointments"
+            android:exported="false" />
+        <activity
+            android:name=".CancelledAppointments"
+            android:exported="false" />
+        <activity
+            android:name=".Book_appointment"
+            android:exported="false" />
+        <activity
+            android:name=".Searchdoctor"
+            android:exported="false" />
+        <activity
+            android:name=".Doctor_detail"
+            android:exported="false" />
+        <activity
+            android:name=".Search_gyn"
+            android:exported="false" />
+        <activity
+            android:name=".Search_cardiologist"
+            android:exported="false" />
+        <activity
+            android:name=".Upload_reports"
+            android:exported="false" />
+        <activity
+            android:name=".Appointment_done"
+            android:exported="false" />
     </application>
 
 </manifest>

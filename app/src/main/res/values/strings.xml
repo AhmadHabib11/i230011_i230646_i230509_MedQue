@@ -1,3 +1,164 @@
 <resources>
     <string name="app_name">i230011_i230646_i230509_MedQue</string>
+    <string name="onboarddesc">Access specialized doctors instantly and\nexperience comprehensive healthcare from\nthe comfort of home.</string>
+
+
+    <!-- Header -->
+    <string name="all_doctors">All Doctors</string>
+    <string name="my_bookings">My Bookings</string>
+    <string name="profile">Profile</string>
+
+    <!-- Search -->
+    <string name="search_doctor_hint">Search doctor...</string>
+
+    <!-- Specialty Filters -->
+    <string name="all">All</string>
+    <string name="gynecologist">Gynecologist</string>
+    <string name="cardiologist">Cardiologist</string>
+    <string name="dermatologist">Dermatologist</string>
+
+    <!-- Results -->
+    <string name="results_found">532 founds</string>
+    <string name="sort_default">Default</string>
+
+    <!-- Tabs -->
+    <string name="tab_upcoming">Upcoming</string>
+    <string name="tab_completed">Completed</string>
+    <string name="tab_cancelled">Cancelled</string>
+
+    <!-- Booking -->
+    <string name="booking_datetime">March 12, 2023 - 11.00 AM</string>
+    <string name="booking1_datetime">March 12, 2023 - 11.00 AM</string>
+    <string name="booking2_datetime">March 2, 2023 - 12.00 AM</string>
+    <string name="booking3_datetime">Feb 2, 2023 - 9.00 AM</string>
+
+    <!-- Button -->
+    <string name="rebook_button">Re-Book</string>
+
+    <!-- Doctor 1 -->
+    <string name="doctor1_name">Dr. David Patel</string>
+    <string name="doctor1_specialty">Cardiologist</string>
+    <string name="doctor1_location">Cardiology Center, USA</string>
+    <string name="doctor1_rating">5</string>
+    <string name="doctor1_reviews">1,872 Reviews</string>
+
+    <!-- Doctor 2 -->
+    <string name="doctor2_name">Dr. Jessica Turner</string>
+    <string name="doctor2_specialty">Gynecologist</string>
+    <string name="doctor2_location">Women\'s Clinic,Seattle,USA</string>
+    <string name="doctor2_rating">4.9</string>
+    <string name="doctor2_reviews">127 Reviews</string>
+
+    <!-- Doctor 3 -->
+    <string name="doctor3_name">Dr. Michael Johnson</string>
+    <string name="doctor3_specialty">Orthopedic Surgery</string>
+    <string name="doctor3_location">Maple Associates, NY,USA</string>
+    <string name="doctor3_rating">4.7</string>
+    <string name="doctor3_reviews">5,223 Reviews</string>
+
+    <!-- Doctor 4 -->
+    <string name="doctor4_name">Dr. Emily Walker</string>
+    <string name="doctor4_specialty">Pediatrics</string>
+    <string name="doctor4_location">Serenity Pediatrics Clinic</string>
+    <string name="doctor4_rating">5</string>
+    <string name="doctor4_reviews">405 Reviews</string>
+
+    <!-- Doctor 5 (Cancelled Booking Screen) -->
+    <string name="doctor5_name">Dr. Sarah Johnson</string>
+    <string name="doctor5_specialty">Gynecologist</string>
+    <string name="doctor5_location">Women\'s Health Clinic</string>
+
+    <!-- Doctor 6 (Completed Booking 1) -->
+    <string name="doctor6_name">Dr. Sarah Johnson</string>
+    <string name="doctor6_specialty">Gynecologist</string>
+    <string name="doctor6_location">Women\'s Health Clinic</string>
+
+    <!-- Doctor 7 (Completed Booking 2) -->
+    <string name="doctor7_name">Dr. Michael Chang</string>
+    <string name="doctor7_specialty">Cardiologist</string>
+    <string name="doctor7_location">HeartCare Center, USA</string>
+
+    <!-- Doctor 8 (Completed Booking 3) -->
+    <string name="doctor8_name">Dr. James Wilson</string>
+    <string name="doctor8_specialty">Cardiologist</string>
+    <string name="doctor8_location">Heart Health Clinic</string>
+
+    <!-- Cancelled Appointments -->
+    <string name="booking_date_time">March 12, 2023 - 11.00 AM</string>
+    <string name="doctor_sarah_name">Dr. Sarah Johnson</string>
+    <string name="doctor_sarah_specialty">Gynecologist</string>
+    <string name="doctor_sarah_location">Women\'s Health Clinic</string>
+
+    <!-- Notification Screen -->
+    <string name="notification">Notification</string>
+    <string name="new_badge">1 New</string>
+    <string name="back_button">Back</string>
+    <string name="today">TODAY</string>
+    <string name="yesterday">YESTERDAY</string>
+    <string name="mark_all_as_read">Mark all as read</string>
+
+    <!-- Notification Titles -->
+    <string name="appointment_success">Appointment Success</string>
+    <string name="appointment_cancelled">Appointment Cancelled</string>
+    <string name="scheduled_changed">Scheduled Changed</string>
+    <string name="report_upload_success">Report Upload success</string>
+    <string name="report_upload_failed">Couldn\'t upload your report</string>
+
+    <!-- Notification Messages -->
+    <string name="appointment_success_message">You have successfully booked your appointment with Dr. Emily Walker.</string>
+    <string name="appointment_cancelled_message">You have successfully cancelled your appointment with Dr. David Patel.</string>
+    <string name="scheduled_changed_message">You have successfully changes your appointment with Dr. Jesica Turner.</string>
+    <string name="appointment_success_david">You have successfully booked your appointment with Dr. David Patel.</string>
+    <string name="report_upload_success_message">You have successfully uploaded your report in tab. Book an appointment with a doctor through these quick steps...</string>
+    <string name="report_upload_failed_message">Your report could not be uploaded. Please try again later.</string>
+
+    <!-- Time -->
+    <string name="time_1h">1h</string>
+    <string name="time_2h">2h</string>
+    <string name="time_8h">8h</string>
+    <string name="time_1d">1d</string>
+
+    <!-- Profile Screen -->
+    <string name="profile_name">Daniel Martinez</string>
+    <string name="profile_phone">+123 856479683</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="log_out">Log Out</string>
+
+    <!-- Logout Dialog -->
+    <string name="logout_title">Logout</string>
+    <string name="logout_message">Are you sure you want to log out?</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="yes_logout_button">Yes, Logout</string>
+
+    <!-- Edit Profile Screen -->
+    <string name="edit_profile_title">Edit Profile</string>
+    <string name="full_name_hint">Michael Jordan</string>
+    <string name="nickname_hint">Nickname</string>
+    <string name="email_hint">name@example.com</string>
+    <string name="dob_hint">Date of Birth</string>
+    <string name="gender_hint">Gender</string>
+    <string name="save_button">Save</string>
+
+
+    <!-- Doctor 9 (Upcoming Booking 1) -->
+    <string name="doctor9_name">Dr. James Robinson</string>
+    <string name="doctor9_specialty">Orthopedic Surgery</string>
+    <string name="doctor9_location">Elite Ortho Clinic, USA</string>
+
+    <!-- Doctor 10 (Upcoming Booking 2) -->
+    <string name="doctor10_name">Dr. Daniel Lee</string>
+    <string name="doctor10_specialty">Gastroenterologist</string>
+    <string name="doctor10_location">Digestive Institute, USA</string>
+
+    <!-- Doctor 11 (Upcoming Booking 3) -->
+    <string name="doctor11_name">Dr. Nathan Harris</string>
+    <string name="doctor11_specialty">Cardiologist</string>
+    <string name="doctor11_location">Heart Center, USA</string>
+
+    <!-- Upcoming Bookings -->
+    <string name="upcoming_booking1_datetime">May 22, 2023 - 10.00 AM</string>
+    <string name="upcoming_booking2_datetime">Jube 14, 2023 - 15.00pm</string>
+    <string name="upcoming_booking3_datetime">June 21, 2023 - 10.00 AM</string>
+    <string name="reschedule_button">Reschedule</string>
+
 </resources>
