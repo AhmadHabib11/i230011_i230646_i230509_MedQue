@@ -7,7 +7,7 @@
     android:name=".upload_reports"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    tools:context=".upload_reports">
+    tools:context=".Upload_reports">
 
 
     <!-- Top Bar -->

@@ -19,7 +19,7 @@ class Signin : AppCompatActivity() {
         val signinbtn = findViewById<Button>(R.id.signInButton)
         signinbtn.setOnClickListener {
 
-            val intent = Intent(this, CompletedAppointments::class.java)
+            val intent = Intent(this, Home::class.java)
             startActivity(intent)
             finish()
         }

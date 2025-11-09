@@ -79,7 +79,7 @@
             android:name=".Search_cardiologist"
             android:exported="false" />
         <activity
-            android:name=".upload_reports"
+            android:name=".Upload_reports"
             android:exported="false" />
         <activity
             android:name=".Appointment_done"

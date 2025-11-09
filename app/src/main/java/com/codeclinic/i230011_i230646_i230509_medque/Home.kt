@@ -25,7 +25,7 @@ class Home : AppCompatActivity() {
         val uploadReportBtn = findViewById<TextView>(R.id.upload_report_btn)
 
         uploadReportBtn.setOnClickListener {
-            val intent = Intent(this, upload_reports::class.java)
+            val intent = Intent(this, Upload_reports::class.java)
             startActivity(intent)
             finish()
         }
