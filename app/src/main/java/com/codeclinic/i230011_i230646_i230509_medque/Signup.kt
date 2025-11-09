@@ -19,13 +19,14 @@ class Signup : AppCompatActivity() {
         createaccbtn.setOnClickListener {
             val intent = Intent(this, SetUpProfile::class.java)
             startActivity(intent)
-
+            finish()
         }
 
         val signinlink = findViewById<TextView>(R.id.signInLink)
         signinlink.setOnClickListener {
             val intent = Intent(this, Signin::class.java)
             startActivity(intent)
+            finish()
 
         }
 

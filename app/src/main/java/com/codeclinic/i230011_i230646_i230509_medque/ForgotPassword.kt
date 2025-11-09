@@ -17,10 +17,9 @@ class ForgotPassword : AppCompatActivity() {
 
         val btnsendcode = findViewById<Button>(R.id.sendCodeButton)
         btnsendcode.setOnClickListener {
-
             val intent = Intent(this, Verification::class.java)
             startActivity(intent)
-
+            finish()
         }
 
         val backarr = findViewById<ImageView>(R.id.backArrow)
@@ -28,6 +27,7 @@ class ForgotPassword : AppCompatActivity() {
 
             val intent = Intent(this, Signin::class.java)
             startActivity(intent)
+            finish()
         }
 
 

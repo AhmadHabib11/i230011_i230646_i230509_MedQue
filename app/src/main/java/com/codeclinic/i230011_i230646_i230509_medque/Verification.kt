@@ -19,6 +19,7 @@ class Verification : AppCompatActivity() {
         verifbtn.setOnClickListener {
             val intent = Intent(this, ResetPassword::class.java)
             startActivity(intent)
+            finish()
         }
 
         val back = findViewById<ImageView>(R.id.backArrow)
@@ -26,6 +27,7 @@ class Verification : AppCompatActivity() {
 
             val intent = Intent(this, ForgotPassword::class.java)
             startActivity(intent)
+            finish()
         }
 
 

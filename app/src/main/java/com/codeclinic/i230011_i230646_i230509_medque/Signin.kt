@@ -21,13 +21,14 @@ class Signin : AppCompatActivity() {
 
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-
+            finish()
         }
 
         val signupbtn = findViewById<TextView>(R.id.signUpLink)
         signupbtn.setOnClickListener {
             val intent = Intent(this, Signup::class.java)
             startActivity(intent)
+            finish()
         }
 
 
@@ -35,6 +36,7 @@ class Signin : AppCompatActivity() {
         forgotpasswordbtn.setOnClickListener {
             val intent = Intent(this, ForgotPassword::class.java)
             startActivity(intent)
+            finish()
         }
 
 

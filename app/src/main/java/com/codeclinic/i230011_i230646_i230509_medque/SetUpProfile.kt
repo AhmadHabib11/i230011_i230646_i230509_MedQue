@@ -19,6 +19,7 @@ class SetUpProfile : AppCompatActivity() {
         savebtn.setOnClickListener {
             val intent = Intent(this, ProfileSetUpSuccess::class.java)
             startActivity(intent)
+            finish()
         }
 
         val backarr = findViewById<ImageView>(R.id.btnBack)
@@ -26,6 +27,7 @@ class SetUpProfile : AppCompatActivity() {
 
             val intent = Intent(this, Signup::class.java)
             startActivity(intent)
+            finish()
         }
 
 

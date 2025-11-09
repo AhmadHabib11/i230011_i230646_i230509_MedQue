@@ -21,6 +21,7 @@ class ResetPassword : AppCompatActivity() {
 
             val intent = Intent(this, Signin::class.java)
             startActivity(intent)
+            finish()
         }
 
         val back = findViewById<ImageView>(R.id.backArrow)
@@ -28,6 +29,7 @@ class ResetPassword : AppCompatActivity() {
 
             val intent = Intent(this, Verification::class.java)
             startActivity(intent)
+            finish()
         }
 
 
