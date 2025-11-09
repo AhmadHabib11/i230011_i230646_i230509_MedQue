@@ -63,6 +63,27 @@
             android:name=".CancelledAppointments"
             android:exported="false" />
 
+        <activity
+            android:name=".Book_appointment"
+            android:exported="false" />
+        <activity
+            android:name=".Searchdoctor"
+            android:exported="false" />
+        <activity
+            android:name=".Docter_detail"
+            android:exported="false" />
+        <activity
+            android:name=".Search_gyn"
+            android:exported="false" />
+        <activity
+            android:name=".Search_cardiologist"
+            android:exported="false" />
+        <activity
+            android:name=".upload_reports"
+            android:exported="false" />
+        <activity
+            android:name=".Appointment_done"
+            android:exported="false" />
 
     </application>
 
