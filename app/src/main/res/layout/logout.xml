@@ -136,7 +136,7 @@
                     android:layout_height="20dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/arrow_right" />
+                    android:src="@drawable/arrow_right_manual" />
             </RelativeLayout>
 
             <!-- Divider -->
