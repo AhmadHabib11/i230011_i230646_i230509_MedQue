@@ -20,12 +20,6 @@ class Profile : AppCompatActivity() {
             insets
         }
 
-        // Search icon click listener
-        val navSearch = findViewById<LinearLayout>(R.id.navSearch)
-        navSearch.setOnClickListener {
-            val intent = Intent(this, SearchDoctors::class.java)
-            startActivity(intent)
-        }
 
         // Calendar navigation click listener
         val navCalendar = findViewById<LinearLayout>(R.id.navCalendar)
