@@ -43,6 +43,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LogOut"
+            android:exported="false" />
+        <activity
+            android:name=".EditProfile"
+            android:exported="false"/>
+        <activity
+            android:name=".Profile"
+            android:exported="false" />
+
+        <activity
+            android:name=".Notifications"
+            android:exported="false" />
+        <activity
+            android:name=".CompletedAppointments"
+            android:exported="false" />
+        <activity
+            android:name=".CancelledAppointments"
+            android:exported="false" />
+
 
     </application>
 
