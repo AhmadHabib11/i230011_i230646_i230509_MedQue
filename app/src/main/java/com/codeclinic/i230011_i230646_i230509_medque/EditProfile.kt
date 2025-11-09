@@ -1,8 +1,10 @@
 package com.codeclinic.i230011_i230646_i230509_medque
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.RelativeLayout
@@ -29,6 +31,16 @@ class EditProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.editprofile)
+
+        val savebtn = findViewById<Button>(R.id.btnSave)
+        savebtn.setOnClickListener {
+            val intent = Intent(this, EditProfile::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.edit_profile_screen)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

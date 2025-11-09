@@ -3,9 +3,11 @@ package com.codeclinic.i230011_i230646_i230509_medque
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -50,9 +52,27 @@ class Searchdoctor : AppCompatActivity() {
         val navcalender = findViewById<ImageView>(R.id.calendarbt)
 
         navcalender.setOnClickListener {
-            val intent = Intent(this, Book_appointment::class.java)
+            val intent = Intent(this, UpcomingAppointments::class.java)
             startActivity(intent)
             finish()
         }
+        val prof = findViewById<ImageView>(R.id.profilebt)
+        prof.setOnClickListener {
+            val intent = Intent(this, Profile::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+
+        val sdoc1 = findViewById<RelativeLayout>(R.id.doctor1Card)
+        sdoc1.setOnClickListener {
+            val intent = Intent(this, Doctor_detail::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+
+
+
     }
 }

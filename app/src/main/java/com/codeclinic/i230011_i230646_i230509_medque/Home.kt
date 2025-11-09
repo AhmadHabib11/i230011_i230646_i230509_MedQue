@@ -40,7 +40,7 @@ class Home : AppCompatActivity() {
         val navcalender = findViewById<ImageView>(R.id.calenderbtn)
 
         navcalender.setOnClickListener {
-            val intent = Intent(this, Book_appointment::class.java)
+            val intent = Intent(this, UpcomingAppointments::class.java)
             startActivity(intent)
             finish()
         }
@@ -51,6 +51,22 @@ class Home : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+
+        val notifbtn = findViewById<ImageView>(R.id.notification_icon)
+        notifbtn.setOnClickListener {
+            val intent = Intent(this, Notifications::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        val prof = findViewById<ImageView>(R.id.personalbtn)
+        prof.setOnClickListener {
+            val intent = Intent(this, Profile::class.java)
+            startActivity(intent)
+            finish()
+        }
+
 
 
     }

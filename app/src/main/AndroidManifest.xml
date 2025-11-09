@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.I230011_i230646_i230509_MedQue">
         <activity
+            android:name=".UpcomingAppointments"
+            android:exported="false" />
+        <activity
             android:name=".ResetPassword"
             android:exported="false" />
         <activity
@@ -40,6 +43,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -48,11 +52,10 @@
             android:exported="false" />
         <activity
             android:name=".EditProfile"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Profile"
             android:exported="false" />
-
         <activity
             android:name=".Notifications"
             android:exported="false" />
@@ -62,7 +65,6 @@
         <activity
             android:name=".CancelledAppointments"
             android:exported="false" />
-
         <activity
             android:name=".Book_appointment"
             android:exported="false" />
@@ -84,7 +86,6 @@
         <activity
             android:name=".Appointment_done"
             android:exported="false" />
-
     </application>
 
 </manifest>
