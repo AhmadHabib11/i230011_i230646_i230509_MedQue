@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:name=".home"
     tools:context=".home">
 
     <!-- Notification Icon (Top Right) -->
@@ -227,6 +228,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/search_doc"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/search_white" />
@@ -240,6 +242,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/calenderbtn"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/calendar_icon" />
@@ -253,6 +256,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/personalbtn"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/profile_icon" />

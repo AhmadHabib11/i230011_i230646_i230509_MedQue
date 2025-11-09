@@ -9,49 +9,50 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class home : AppCompatActivity() {
+class Searchdoctor : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_home)
-
-        // Handle edge-to-edge layout
+        setContentView(R.layout.activity_searchdoctor)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val back_btn = findViewById<ImageView>(R.id.btnBack)
 
-        val uploadReportBtn = findViewById<TextView>(R.id.upload_report_btn)
-
-        uploadReportBtn.setOnClickListener {
-            val intent = Intent(this, upload_reports::class.java)
+        back_btn.setOnClickListener {
+            val intent = Intent(this, home::class.java)
             startActivity(intent)
             finish()
         }
+        val home_btn = findViewById<ImageView>(R.id.homebt)
 
-        val searchdoct = findViewById<ImageView>(R.id.search_doc)
-
-        searchdoct.setOnClickListener {
-            val intent = Intent(this, Searchdoctor::class.java)
+        home_btn.setOnClickListener {
+            val intent = Intent(this, home::class.java)
             startActivity(intent)
             finish()
         }
-        val navcalender = findViewById<ImageView>(R.id.calenderbtn)
+        val gynbtn = findViewById<TextView>(R.id.btnGynecologist)
+
+        gynbtn.setOnClickListener {
+            val intent = Intent(this, Search_gyn::class.java)
+            startActivity(intent)
+            finish()
+        }
+        val cardbtn = findViewById<TextView>(R.id.btnCardiologist)
+
+        cardbtn.setOnClickListener {
+            val intent = Intent(this, Search_cardiologist::class.java)
+            startActivity(intent)
+            finish()
+        }
+        val navcalender = findViewById<ImageView>(R.id.calendarbt)
 
         navcalender.setOnClickListener {
             val intent = Intent(this, Book_appointment::class.java)
             startActivity(intent)
             finish()
         }
-        val bookbtn = findViewById<TextView>(R.id.btnAll)
-
-        bookbtn.setOnClickListener {
-            val intent = Intent(this, Book_appointment::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-
     }
 }

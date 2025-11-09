@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_light_gray"
-    android:id="@+id/searchdoctors">
+    android:name=".Searchdoctor"
+    android:id="@+id/main">
 
     <!-- Header Section -->
     <RelativeLayout
@@ -23,7 +24,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/arrow_left" />
+            android:src="@drawable/arrow_lef" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -667,6 +668,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/homebt"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/home_icon" />
@@ -680,6 +682,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/searchbt"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/search_selected" />
@@ -693,6 +696,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/calendarbt"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/calendar_icon" />
@@ -706,6 +710,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/profilebt"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/profile_icon" />
