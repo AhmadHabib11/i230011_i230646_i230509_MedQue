@@ -1,10 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/verification"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Verification">
+    tools:context=".Verification"
+    android:background="@color/lightgreen">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Back Arrow -->
+    <ImageView
+        android:id="@+id/backArrow"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/whitebackarrow"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:gravity="center_horizontal">
+
+        <!-- Top Spacer -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="170dp"
+            android:layout_height="140dp"
+            android:src="@drawable/whitelogo"
+            android:layout_marginTop="12dp"/>
+
+        <!-- App Name Image -->
+        <ImageView
+            android:id="@+id/appNameImage"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="-15dp"
+            android:src="@drawable/medquewhite" />
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5" />
+
+        <!-- Verify Code Title -->
+        <TextView
+            android:id="@+id/verifyCodeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Verify Code"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- Subtitle -->
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Enter the the code\nwe just sent you on your registered Email"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3" />
+
+        <!-- Code Input Boxes -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/codeBox1"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@drawable/otpbox"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/darkgreen"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginRight="8dp" />
+
+            <EditText
+                android:id="@+id/codeBox2"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@drawable/otpbox"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/darkgreen"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginRight="8dp" />
+
+            <EditText
+                android:id="@+id/codeBox3"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@drawable/otpbox"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/darkgreen"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginRight="8dp" />
+
+            <EditText
+                android:id="@+id/codeBox4"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@drawable/otpbox"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/darkgreen"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginRight="8dp" />
+
+            <EditText
+                android:id="@+id/codeBox5"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@drawable/otpbox"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/darkgreen"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5" />
+
+        <!-- Verify Button -->
+        <Button
+            android:id="@+id/verifyButton"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:text="Verify"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/darkgreen"
+            android:elevation="4dp"
+            app:cornerRadius="28dp" />
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <!-- Resend Code Link -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Didn't get the Code? "
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/resendLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resend"
+                android:textColor="@color/darkgreen"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+        <!-- Bottom Spacer -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+</RelativeLayout>
