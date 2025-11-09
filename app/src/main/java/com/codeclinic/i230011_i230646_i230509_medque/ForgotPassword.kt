@@ -18,7 +18,7 @@ class ForgotPassword : AppCompatActivity() {
         val btnsendcode = findViewById<Button>(R.id.sendCodeButton)
         btnsendcode.setOnClickListener {
 
-            val intent = Intent(this, ResetPassword::class.java)
+            val intent = Intent(this, Verification::class.java)
             startActivity(intent)
 
         }

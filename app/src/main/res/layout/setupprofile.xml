@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@drawable/signupbars"
-            android:hint="Michael Jordan"
+            android:hint="Username"
             android:textColorHint="#999999"
             android:textColor="#000000"
             android:textSize="16sp"
@@ -104,21 +104,6 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:inputType="text" />
-
-        <!-- Email Input -->
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="14dp"
-            android:background="@drawable/signupbars"
-            android:hint="name@example.com"
-            android:textColorHint="#999999"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:inputType="textEmailAddress" />
 
         <!-- Date of Birth Input -->
         <RelativeLayout

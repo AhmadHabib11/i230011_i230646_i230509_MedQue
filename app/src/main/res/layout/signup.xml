@@ -70,22 +70,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5" />
-
-        <!-- Name Input -->
-        <EditText
-            android:id="@+id/nameInput"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:hint="Your Name"
-            android:inputType="textPersonName"
-            android:textSize="16sp"
-            android:padding="14dp"
-            android:paddingLeft="48dp"
-            android:background="@drawable/signupedittextbg"
-            android:drawableLeft="@drawable/usericon"
-            android:drawablePadding="12dp"
-            android:textColorHint="#999999" />
+            android:layout_weight="0.3" />
 
         <!-- Email Input -->
         <EditText
