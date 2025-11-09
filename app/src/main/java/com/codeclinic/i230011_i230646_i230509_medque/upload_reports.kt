@@ -25,7 +25,7 @@ class upload_reports : AppCompatActivity() {
         val backbtn = findViewById<ImageView>(R.id.btn_back)
 
         backbtn.setOnClickListener {
-            val intent = Intent(this, home::class.java)
+            val intent = Intent(this, Home::class.java)
             startActivity(intent)
             finish()
         }
@@ -33,7 +33,7 @@ class upload_reports : AppCompatActivity() {
         val submitrep = findViewById<TextView>(R.id.btn_submit)
 
         submitrep.setOnClickListener {
-            val intent = Intent(this, home::class.java)
+            val intent = Intent(this, Home::class.java)
             startActivity(intent)
             finish()
         }

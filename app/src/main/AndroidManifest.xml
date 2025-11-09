@@ -70,7 +70,7 @@
             android:name=".Searchdoctor"
             android:exported="false" />
         <activity
-            android:name=".Docter_detail"
+            android:name=".Doctor_detail"
             android:exported="false" />
         <activity
             android:name=".Search_gyn"
