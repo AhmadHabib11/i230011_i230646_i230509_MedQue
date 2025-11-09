@@ -16,7 +16,7 @@ class Home : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         // Handle edge-to-edge layout
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.act_home)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -47,7 +47,7 @@ class Home : AppCompatActivity() {
         val bookbtn = findViewById<TextView>(R.id.btnAll)
 
         bookbtn.setOnClickListener {
-            val intent = Intent(this, Book_appointment::class.java)
+            val intent = Intent(this, UpcomingAppointments::class.java)
             startActivity(intent)
             finish()
         }

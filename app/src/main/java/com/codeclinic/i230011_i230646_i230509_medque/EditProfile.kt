@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.textview.MaterialTextView
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -32,9 +33,9 @@ class EditProfile : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.editprofile)
 
-        val savebtn = findViewById<Button>(R.id.btnSave)
+        val savebtn = findViewById<MaterialTextView>(R.id.btnSave)
         savebtn.setOnClickListener {
-            val intent = Intent(this, EditProfile::class.java)
+            val intent = Intent(this, Profile::class.java)
             startActivity(intent)
             finish()
         }
@@ -77,6 +78,8 @@ class EditProfile : AppCompatActivity() {
 
         // Back button
         btnBack.setOnClickListener {
+            val intent = Intent(this, Profile::class.java)
+            startActivity(intent)
             finish()
         }
     }
