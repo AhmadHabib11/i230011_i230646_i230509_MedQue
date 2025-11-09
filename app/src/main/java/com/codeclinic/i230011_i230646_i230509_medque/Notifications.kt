@@ -9,18 +9,17 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 
-class Onboarding : AppCompatActivity() {
+class Notifications : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.onboarding)
-
-        val btn = findViewById<Button>(R.id.getStartedButton)
-        btn.setOnClickListener {
-            val intent = Intent(this, Signup::class.java)
-            startActivity(intent)
-            finish()
+        setContentView(R.layout.notifications)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.notificationsLayout)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
+
 
 
     }
