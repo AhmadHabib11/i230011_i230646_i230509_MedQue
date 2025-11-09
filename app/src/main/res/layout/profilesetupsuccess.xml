@@ -72,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your account is ready to use. You will be redirected to the Home Page in a few seconds..."
+            android:text="Your account is ready to use. You will be redirected to the Sign in page in a few seconds..."
             android:textSize="14sp"
             android:textColor="#666666"
             android:gravity="center"

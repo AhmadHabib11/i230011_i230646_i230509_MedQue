@@ -16,19 +16,19 @@
             android:exported="false" />
         <activity
             android:name=".Verification"
-            android:exported="true"></activity>
+            android:exported="false" />
         <activity
             android:name=".ForgotPassword"
-            android:exported="true"></activity>
+            android:exported="false" />
         <activity
             android:name=".Signin"
-            android:exported="true"></activity>
+            android:exported="false" />
         <activity
             android:name=".ProfileSetUpSuccess"
-            android:exported="true"></activity>
+            android:exported="false" />
         <activity
             android:name=".SetUpProfile"
-            android:exported="true"></activity>
+            android:exported="false" />
         <activity
             android:name=".Signup"
             android:exported="false" />
@@ -37,16 +37,15 @@
             android:exported="false" />
         <activity
             android:name=".SplashScreen"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
