@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name">i230011_i230646_i230509_MedQue</string>
+    <string name="onboarddesc">Access specialized doctors instantly and\nexperience comprehensive healthcare from\nthe comfort of home.</string>
 
 
     <!-- Header -->
@@ -82,34 +84,6 @@
     <string name="doctor8_location">Heart Health Clinic</string>
 
 
-
-
-    <!-- Doctor 9 (Upcoming Booking 1) -->
-    <string name="doctor9_name">Dr. James Robinson</string>
-    <string name="doctor9_specialty">Orthopedic Surgery</string>
-    <string name="doctor9_location">Elite Ortho Clinic, USA</string>
-
-    <!-- Doctor 10 (Upcoming Booking 2) -->
-    <string name="doctor10_name">Dr. Daniel Lee</string>
-    <string name="doctor10_specialty">Gastroenterologist</string>
-    <string name="doctor10_location">Digestive Institute, USA</string>
-
-    <!-- Doctor 11 (Upcoming Booking 3) -->
-    <string name="doctor11_name">Dr. Nathan Harris</string>
-    <string name="doctor11_specialty">Cardiologist</string>
-    <string name="doctor11_location">Heart Center, USA</string>
-
-    <!-- Upcoming Bookings -->
-    <string name="upcoming_booking1_datetime">May 22, 2023 - 10.00 AM</string>
-    <string name="upcoming_booking2_datetime">Jube 14, 2023 - 15.00pm</string>
-    <string name="upcoming_booking3_datetime">June 21, 2023 - 10.00 AM</string>
-    <string name="reschedule_button">Reschedule</string>
-
-
-
-
-
-
     <!-- Cancelled Appointments -->
     <string name="booking_date_time">March 12, 2023 - 11.00 AM</string>
     <string name="doctor_sarah_name">Dr. Sarah Johnson</string>
@@ -165,4 +139,27 @@
     <string name="dob_hint">Date of Birth</string>
     <string name="gender_hint">Gender</string>
     <string name="save_button">Save</string>
+
+
+    <!-- Doctor 9 (Upcoming Booking 1) -->
+    <string name="doctor9_name">Dr. James Robinson</string>
+    <string name="doctor9_specialty">Orthopedic Surgery</string>
+    <string name="doctor9_location">Elite Ortho Clinic, USA</string>
+
+    <!-- Doctor 10 (Upcoming Booking 2) -->
+    <string name="doctor10_name">Dr. Daniel Lee</string>
+    <string name="doctor10_specialty">Gastroenterologist</string>
+    <string name="doctor10_location">Digestive Institute, USA</string>
+
+    <!-- Doctor 11 (Upcoming Booking 3) -->
+    <string name="doctor11_name">Dr. Nathan Harris</string>
+    <string name="doctor11_specialty">Cardiologist</string>
+    <string name="doctor11_location">Heart Center, USA</string>
+
+    <!-- Upcoming Bookings -->
+    <string name="upcoming_booking1_datetime">May 22, 2023 - 10.00 AM</string>
+    <string name="upcoming_booking2_datetime">Jube 14, 2023 - 15.00pm</string>
+    <string name="upcoming_booking3_datetime">June 21, 2023 - 10.00 AM</string>
+    <string name="reschedule_button">Reschedule</string>
+
 </resources>

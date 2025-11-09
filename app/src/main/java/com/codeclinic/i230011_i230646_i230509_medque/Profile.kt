@@ -29,10 +29,11 @@ class Profile : AppCompatActivity() {
         }
 
         // Edit Profile option click listener
-        val editProfileOption = findViewById<RelativeLayout>(R.id.editProfileOption)
-        editProfileOption.setOnClickListener {
+        val editprof = findViewById<RelativeLayout>(R.id.editProfilebtn)
+        editprof.setOnClickListener {
             val intent = Intent(this, EditProfile::class.java)
             startActivity(intent)
+            finish()
         }
 
         // Logout option click listener
