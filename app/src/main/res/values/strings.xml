@@ -161,4 +161,6 @@
     <string name="upcoming_booking3_datetime">June 21, 2023 - 10.00 AM</string>
     <string name="reschedule_button">Reschedule</string>
 
+<!--    <string name="192.168.18.37">ip</string>-->
+
 </resources>
