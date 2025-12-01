@@ -66,6 +66,12 @@ class Signin : AppCompatActivity() {
                     // Save user data to SharedPreferences
                     saveUserData(userData)
 
+                    // Mark that user has seen onboarding (they came through signin)
+                    with(sharedPreferences.edit()) {
+                        putBoolean("hasSeenOnboarding", true)
+                        apply()
+                    }
+
                     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
                     // Navigate to Home

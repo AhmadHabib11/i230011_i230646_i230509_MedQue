@@ -144,13 +144,19 @@ class SetUpProfile : AppCompatActivity() {
         }
     }
 
+    // In your SetUpProfile.kt, add this to the success callback:
     private fun handleSaveResponse(savebtn: Button, success: Boolean, message: String) {
         runOnUiThread {
             savebtn.isEnabled = true
             savebtn.text = "Save"
 
             if (success) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                // DO NOT set isLoggedIn here!
+                // User needs to login manually
+
+                Toast.makeText(this, "Profile setup complete! Please login.", Toast.LENGTH_SHORT).show()
+
+                // Go to ProfileSetUpSuccess which will redirect to Signin
                 val intent = Intent(this, ProfileSetUpSuccess::class.java)
                 startActivity(intent)
                 finish()

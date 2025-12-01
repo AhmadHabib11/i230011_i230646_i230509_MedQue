@@ -1,6 +1,7 @@
 package com.codeclinic.i230011_i230646_i230509_medque
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,10 +11,18 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class Home : AppCompatActivity() {
+
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
+
+        sharedPreferences = getSharedPreferences("MedQuePrefs", MODE_PRIVATE)
+
+        // Check if user is logged in
+        checkLoginStatus()
 
         // Handle edge-to-edge layout
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.act_home)) { v, insets ->
@@ -52,7 +61,6 @@ class Home : AppCompatActivity() {
             finish()
         }
 
-
         val notifbtn = findViewById<ImageView>(R.id.notification_icon)
         notifbtn.setOnClickListener {
             val intent = Intent(this, Notifications::class.java)
@@ -66,8 +74,15 @@ class Home : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
 
-
-
+    private fun checkLoginStatus() {
+        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+        if (!isLoggedIn) {
+            // User is not logged in, redirect to Signin
+            val intent = Intent(this, Signin::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }

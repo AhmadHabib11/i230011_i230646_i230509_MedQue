@@ -15,13 +15,17 @@ class ProfileSetUpSuccess : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.profilesetupsuccess)
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.profilesetupsuccess)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         Handler(Looper.getMainLooper()).postDelayed({
+            // Go to Signin (NOT Home)
             val intent = Intent(this, Signin::class.java)
             startActivity(intent)
             finish()
         }, 4000)
-
-
     }
 }

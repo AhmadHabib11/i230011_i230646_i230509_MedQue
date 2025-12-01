@@ -43,9 +43,14 @@ class LogOut : AppCompatActivity() {
 
         val logoutBtn = findViewById<TextView>(R.id.logoutConfirmButton)
         logoutBtn.setOnClickListener {
-            // Clear user data from SharedPreferences
+            // Save hasSeenOnboarding before clearing
+            val hasSeenOnboarding = sharedPreferences.getBoolean("hasSeenOnboarding", false)
+
+            // Clear ALL user data EXCEPT hasSeenOnboarding
             with(sharedPreferences.edit()) {
-                clear()
+                clear() // Clear everything first
+                // Restore hasSeenOnboarding
+                putBoolean("hasSeenOnboarding", hasSeenOnboarding)
                 apply()
             }
 
