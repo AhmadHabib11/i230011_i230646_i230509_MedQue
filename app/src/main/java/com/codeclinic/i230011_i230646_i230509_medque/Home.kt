@@ -47,7 +47,7 @@ class Home : AppCompatActivity() {
         val bookbtn = findViewById<TextView>(R.id.btnAll)
 
         bookbtn.setOnClickListener {
-            val intent = Intent(this, UpcomingAppointments::class.java)
+            val intent = Intent(this, Searchdoctor::class.java)
             startActivity(intent)
             finish()
         }
