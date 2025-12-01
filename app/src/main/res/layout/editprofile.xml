@@ -52,39 +52,22 @@
             android:paddingTop="32dp"
             android:paddingBottom="24dp">
 
-            <!-- Profile Image Section -->
+            <!-- Profile Image Section - SIMPLIFIED VERSION -->
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="32dp">
 
-                <!-- Outer Circle (Light Gray) -->
+                <!-- Circular Profile Image -->
                 <ImageView
                     android:id="@+id/outerCircle"
                     android:layout_width="168dp"
                     android:layout_height="168dp"
-                    android:src="@drawable/dp_circle" />
-
-                <!-- Inner Circle (Gray) -->
-                <ImageView
-                    android:id="@+id/innerCircle"
-                    android:layout_width="63dp"
-                    android:layout_height="63dp"
-                    android:layout_alignTop="@id/outerCircle"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="40dp"
-                    android:src="@drawable/inner_circle" />
-
-                <!-- Bottom Oval (Darker Gray) -->
-                <ImageView
-                    android:id="@+id/bottomOval"
-                    android:layout_width="114dp"
-                    android:layout_height="54dp"
-                    android:layout_alignBottom="@id/outerCircle"
-                    android:layout_centerHorizontal="true"
-
-                    android:src="@drawable/inner_bottom_oval" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/dp_circle"
+                    android:background="@drawable/circle_image_background"
+                    android:clipToOutline="true" />
 
                 <!-- Edit Button (Green Circle with Pencil) -->
                 <RelativeLayout

@@ -44,7 +44,9 @@
                     android:layout_width="202dp"
                     android:layout_height="202dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/dp" />
+                    android:src="@drawable/dp"
+                    android:background="@drawable/circle_image_background"
+                    android:clipToOutline="true" />
 
                 <!-- Edit Button (Green Circle with Pencil) -->
                 <RelativeLayout

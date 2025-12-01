@@ -38,16 +38,21 @@
                 android:layout_width="202dp"
                 android:layout_height="202dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/dp" />
+                android:src="@drawable/dp"
+                android:background="@drawable/circle_image_background"
+                android:clipToOutline="true" />
 
             <!-- Edit Button (Green Circle with Pencil) -->
             <RelativeLayout
+                android:id="@+id/editProfileButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@id/profileImage"
                 android:layout_alignBottom="@id/profileImage"
                 android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:focusable="true">
 
                 <View
                     android:id="@+id/editButtonBg"
@@ -74,7 +79,7 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <!-- Phone Number -->
+        <!-- Phone Number (Hidden) -->
         <TextView
             android:id="@+id/phoneNumber"
             android:layout_width="wrap_content"
@@ -82,7 +87,8 @@
             android:layout_marginTop="8dp"
             android:text="@string/profile_phone"
             android:textColor="@color/text_tertiary"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <!-- Menu Options -->
@@ -138,7 +144,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/divider_gray"
-
             android:scaleType="fitXY"/>
 
         <!-- Log Out Option -->

@@ -4,29 +4,26 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.squareup.picasso.Picasso
 import org.json.JSONObject
-import java.io.*
-import java.net.HttpURLConnection
-import java.net.URL
+import java.io.ByteArrayOutputStream
 import java.util.*
 
 class SetUpProfile : AppCompatActivity() {
 
-    // Replace with your server IP address (4 dots format)
     private val BASE_URL = "http://192.168.18.37/medque_app"
-
     private var userId: Int = -1
     private var selectedDate: String? = null
     private var selectedImageUri: Uri? = null
     private lateinit var profileImageView: ImageView
+    private lateinit var requestQueue: com.android.volley.RequestQueue
 
     // Image picker launcher
     private val imagePickerLauncher = registerForActivityResult(
@@ -34,13 +31,20 @@ class SetUpProfile : AppCompatActivity() {
     ) { uri: Uri? ->
         uri?.let {
             selectedImageUri = it
-            profileImageView.setImageURI(it)
+            Picasso.get()
+                .load(it)
+                .placeholder(R.drawable.dp_circle)
+                .error(R.drawable.dp_circle)
+                .into(profileImageView)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.setupprofile)
+
+        // Initialize Volley request queue
+        requestQueue = Volley.newRequestQueue(this)
 
         // Get user ID from intent
         userId = intent.getIntExtra("user_id", -1)
@@ -113,23 +117,23 @@ class SetUpProfile : AppCompatActivity() {
 
             // First upload image if selected, then update profile
             if (selectedImageUri != null) {
-                uploadImage(selectedImageUri!!) { imageSuccess, imageMessage, imagePath ->
+                uploadImageWithVolley(selectedImageUri!!) { imageSuccess, imageMessage, imagePath ->
                     if (imageSuccess) {
                         // Image uploaded, now update profile with image path
-                        updateProfile(name, nickname, selectedDate, gender, imagePath) { success, message ->
+                        updateProfileWithVolley(name, nickname, selectedDate, gender, imagePath) { success, message ->
                             handleSaveResponse(savebtn, success, message)
                         }
                     } else {
                         // Image upload failed, but continue with profile update
                         Toast.makeText(this, "Image upload failed: $imageMessage", Toast.LENGTH_SHORT).show()
-                        updateProfile(name, nickname, selectedDate, gender, null) { success, message ->
+                        updateProfileWithVolley(name, nickname, selectedDate, gender, null) { success, message ->
                             handleSaveResponse(savebtn, success, message)
                         }
                     }
                 }
             } else {
                 // No image selected, just update profile
-                updateProfile(name, nickname, selectedDate, gender, null) { success, message ->
+                updateProfileWithVolley(name, nickname, selectedDate, gender, null) { success, message ->
                     handleSaveResponse(savebtn, success, message)
                 }
             }
@@ -156,34 +160,57 @@ class SetUpProfile : AppCompatActivity() {
         }
     }
 
-    private fun uploadImage(imageUri: Uri, callback: (Boolean, String, String?) -> Unit) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val url = URL("$BASE_URL/upload_image.php")
-                val connection = url.openConnection() as HttpURLConnection
-                connection.requestMethod = "POST"
-                connection.doOutput = true
-                connection.connectTimeout = 30000
-                connection.readTimeout = 30000
+    private fun uploadImageWithVolley(imageUri: Uri, callback: (Boolean, String, String?) -> Unit) {
+        val url = "$BASE_URL/upload_image.php"
 
-                val boundary = "----Boundary${System.currentTimeMillis()}"
-                connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=$boundary")
+        val stringRequest = object : StringRequest(
+            Request.Method.POST, url,
+            { response ->
+                try {
+                    val jsonResponse = JSONObject(response)
+                    val success = jsonResponse.getBoolean("success")
+                    val message = jsonResponse.getString("message")
+                    val imagePath = if (success && jsonResponse.has("data")) {
+                        jsonResponse.getJSONObject("data").getString("filename")
+                    } else null
+                    callback(success, message, imagePath)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    callback(false, "Failed to parse response", null)
+                }
+            },
+            { error ->
+                val errorMessage = error.networkResponse?.let {
+                    String(it.data, Charsets.UTF_8)
+                } ?: error.message ?: "Network error"
+                callback(false, errorMessage, null)
+            }
+        ) {
+            override fun getBodyContentType(): String {
+                return "multipart/form-data;boundary=$boundary"
+            }
 
-                val outputStream = DataOutputStream(connection.outputStream)
+            override fun getBody(): ByteArray {
+                return createImageRequestBody(imageUri)
+            }
+
+            private val boundary = "Boundary-${System.currentTimeMillis()}"
+
+            private fun createImageRequestBody(imageUri: Uri): ByteArray {
+                val outputStream = ByteArrayOutputStream()
 
                 // Add user_id parameter
-                outputStream.writeBytes("--$boundary\r\n")
-                outputStream.writeBytes("Content-Disposition: form-data; name=\"user_id\"\r\n\r\n")
-                outputStream.writeBytes("$userId\r\n")
+                outputStream.write("--$boundary\r\n".toByteArray())
+                outputStream.write("Content-Disposition: form-data; name=\"user_id\"\r\n\r\n".toByteArray())
+                outputStream.write("$userId\r\n".toByteArray())
 
                 // Add image file
+                val fileName = "profile_${userId}_${System.currentTimeMillis()}.jpg"
+                outputStream.write("--$boundary\r\n".toByteArray())
+                outputStream.write("Content-Disposition: form-data; name=\"image\"; filename=\"$fileName\"\r\n".toByteArray())
+                outputStream.write("Content-Type: image/jpeg\r\n\r\n".toByteArray())
+
                 val inputStream = contentResolver.openInputStream(imageUri)
-                val fileName = getFileName(imageUri)
-
-                outputStream.writeBytes("--$boundary\r\n")
-                outputStream.writeBytes("Content-Disposition: form-data; name=\"image\"; filename=\"$fileName\"\r\n")
-                outputStream.writeBytes("Content-Type: image/*\r\n\r\n")
-
                 inputStream?.use { input ->
                     val buffer = ByteArray(4096)
                     var bytesRead: Int
@@ -192,53 +219,17 @@ class SetUpProfile : AppCompatActivity() {
                     }
                 }
 
-                outputStream.writeBytes("\r\n")
-                outputStream.writeBytes("--$boundary--\r\n")
-                outputStream.flush()
-                outputStream.close()
+                outputStream.write("\r\n".toByteArray())
+                outputStream.write("--$boundary--\r\n".toByteArray())
 
-                // Read response
-                val responseCode = connection.responseCode
-                val reader = if (responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader(InputStreamReader(connection.inputStream))
-                } else {
-                    BufferedReader(InputStreamReader(connection.errorStream))
-                }
-
-                val response = reader.use { it.readText() }
-                val jsonResponse = JSONObject(response)
-
-                val success = jsonResponse.getBoolean("success")
-                val message = jsonResponse.getString("message")
-                val imagePath = if (success && jsonResponse.has("data")) {
-                    jsonResponse.getJSONObject("data").getString("filename")
-                } else null
-
-                withContext(Dispatchers.Main) {
-                    callback(success, message, imagePath)
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    callback(false, "Network error: ${e.message}", null)
-                }
+                return outputStream.toByteArray()
             }
         }
+
+        requestQueue.add(stringRequest)
     }
 
-    private fun getFileName(uri: Uri): String {
-        var fileName = "image.jpg"
-        contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-            val nameIndex = cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME)
-            if (nameIndex != -1 && cursor.moveToFirst()) {
-                fileName = cursor.getString(nameIndex)
-            }
-        }
-        return fileName
-    }
-
-    private fun updateProfile(
+    private fun updateProfileWithVolley(
         name: String,
         nickname: String,
         dob: String?,
@@ -246,56 +237,31 @@ class SetUpProfile : AppCompatActivity() {
         profilePicture: String?,
         callback: (Boolean, String) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val url = URL("$BASE_URL/update_profile.php")
-                val connection = url.openConnection() as HttpURLConnection
-                connection.requestMethod = "POST"
-                connection.setRequestProperty("Content-Type", "application/json")
-                connection.doOutput = true
-                connection.connectTimeout = 10000
-                connection.readTimeout = 10000
-
-                // Create JSON payload
-                val jsonPayload = JSONObject().apply {
-                    put("user_id", userId)
-                    put("name", name)
-                    put("nickname", nickname)
-                    if (dob != null) put("dob", dob)
-                    put("gender", gender)
-                    if (profilePicture != null) put("profile_picture", profilePicture)
-                }
-
-                // Send request
-                OutputStreamWriter(connection.outputStream).use { writer ->
-                    writer.write(jsonPayload.toString())
-                    writer.flush()
-                }
-
-                // Read response
-                val responseCode = connection.responseCode
-                val reader = if (responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader(InputStreamReader(connection.inputStream))
-                } else {
-                    BufferedReader(InputStreamReader(connection.errorStream))
-                }
-
-                val response = reader.use { it.readText() }
-                val jsonResponse = JSONObject(response)
-
-                val success = jsonResponse.getBoolean("success")
-                val message = jsonResponse.getString("message")
-
-                withContext(Dispatchers.Main) {
-                    callback(success, message)
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    callback(false, "Network error: ${e.message}")
-                }
-            }
+        val url = "$BASE_URL/update_profile.php"
+        val jsonObject = JSONObject().apply {
+            put("user_id", userId)
+            put("name", name)
+            put("nickname", nickname)
+            if (dob != null) put("dob", dob)
+            put("gender", gender)
+            if (profilePicture != null) put("profile_picture", profilePicture)
         }
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST, url, jsonObject,
+            { response ->
+                val success = response.getBoolean("success")
+                val message = response.getString("message")
+                callback(success, message)
+            },
+            { error ->
+                val errorMessage = error.networkResponse?.let {
+                    String(it.data, Charsets.UTF_8)
+                } ?: error.message ?: "Network error"
+                callback(false, errorMessage)
+            }
+        )
+
+        requestQueue.add(jsonObjectRequest)
     }
 }

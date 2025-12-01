@@ -7,25 +7,22 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
-import java.net.HttpURLConnection
-import java.net.URL
 
 class Signup : AppCompatActivity() {
 
-
     private val BASE_URL = "http://192.168.18.37/medque_app"
+    private lateinit var requestQueue: com.android.volley.RequestQueue
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.signup)
+
+        // Initialize Volley RequestQueue
+        requestQueue = Volley.newRequestQueue(this)
 
         val emailInput = findViewById<EditText>(R.id.emailInput)
         val passwordInput = findViewById<EditText>(R.id.passwordInput)
@@ -56,24 +53,22 @@ class Signup : AppCompatActivity() {
             createaccbtn.isEnabled = false
             createaccbtn.text = "Creating..."
 
-            // Make signup request
-            signupUser(email, password) { success, message, userId ->
-                runOnUiThread {
-                    createaccbtn.isEnabled = true
-                    createaccbtn.text = "Create Account"
+            // Make signup request with Volley
+            signupUserWithVolley(email, password) { success, message, userId ->
+                createaccbtn.isEnabled = true
+                createaccbtn.text = "Create Account"
 
-                    if (success && userId != null) {
-                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                if (success && userId != null) {
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
-                        // Navigate to profile setup with user ID
-                        val intent = Intent(this, SetUpProfile::class.java)
-                        intent.putExtra("user_id", userId)
-                        intent.putExtra("email", email)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-                    }
+                    // Navigate to profile setup with user ID
+                    val intent = Intent(this, SetUpProfile::class.java)
+                    intent.putExtra("user_id", userId)
+                    intent.putExtra("email", email)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -85,56 +80,31 @@ class Signup : AppCompatActivity() {
         }
     }
 
-    private fun signupUser(email: String, password: String, callback: (Boolean, String, Int?) -> Unit) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val url = URL("$BASE_URL/signup.php")
-                val connection = url.openConnection() as HttpURLConnection
-                connection.requestMethod = "POST"
-                connection.setRequestProperty("Content-Type", "application/json")
-                connection.doOutput = true
-                connection.connectTimeout = 10000
-                connection.readTimeout = 10000
-
-                // Create JSON payload
-                val jsonPayload = JSONObject().apply {
-                    put("email", email)
-                    put("password", password)
-                }
-
-                // Send request
-                OutputStreamWriter(connection.outputStream).use { writer ->
-                    writer.write(jsonPayload.toString())
-                    writer.flush()
-                }
-
-                // Read response
-                val responseCode = connection.responseCode
-                val reader = if (responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader(InputStreamReader(connection.inputStream))
-                } else {
-                    BufferedReader(InputStreamReader(connection.errorStream))
-                }
-
-                val response = reader.use { it.readText() }
-                val jsonResponse = JSONObject(response)
-
-                val success = jsonResponse.getBoolean("success")
-                val message = jsonResponse.getString("message")
-                val userId = if (success && jsonResponse.has("data")) {
-                    jsonResponse.getJSONObject("data").getInt("user_id")
-                } else null
-
-                withContext(Dispatchers.Main) {
-                    callback(success, message, userId)
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    callback(false, "Network error: ${e.message}", null)
-                }
-            }
+    private fun signupUserWithVolley(email: String, password: String, callback: (Boolean, String, Int?) -> Unit) {
+        val url = "$BASE_URL/signup.php"
+        val jsonObject = JSONObject().apply {
+            put("email", email)
+            put("password", password)
         }
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST, url, jsonObject,
+            { response ->
+                val success = response.getBoolean("success")
+                val message = response.getString("message")
+                val userId = if (success && response.has("data")) {
+                    response.getJSONObject("data").getInt("user_id")
+                } else null
+                callback(success, message, userId)
+            },
+            { error ->
+                val errorMessage = error.networkResponse?.let {
+                    String(it.data, Charsets.UTF_8)
+                } ?: error.message ?: "Network error"
+                callback(false, errorMessage, null)
+            }
+        )
+
+        requestQueue.add(jsonObjectRequest)
     }
 }
