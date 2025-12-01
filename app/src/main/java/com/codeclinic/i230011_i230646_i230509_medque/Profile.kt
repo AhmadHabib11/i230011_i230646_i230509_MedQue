@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlin.jvm.java
 
 class Profile : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,6 +20,24 @@ class Profile : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val navHome = findViewById<LinearLayout>(R.id.navHome)
+        navHome.setOnClickListener {
+            val intent = Intent(this, Home::class.java)
+            startActivity(intent)
+        }
+        val searchDoctor = findViewById<LinearLayout>(R.id.navSearch)
+        searchDoctor.setOnClickListener {
+            val intent = Intent(this, Searchdoctor::class.java)
+            startActivity(intent)
+        }
+        val upcapp = findViewById<LinearLayout>(R.id.navCalendar)
+        upcapp.setOnClickListener {
+            val intent = Intent(this, UpcomingAppointments::class.java)
+            startActivity(intent)
+
+        }
+
 
 
         // Calendar navigation click listener
