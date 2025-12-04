@@ -15,13 +15,24 @@ class ProfileSetUpSuccess : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.profilesetupsuccess)
 
+        // Clear any previous session
+        val sharedPreferences = getSharedPreferences("MedQuePrefs", MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putBoolean("isLoggedIn", false) // Ensure user needs to login
+            apply()
+        }
 
         Handler(Looper.getMainLooper()).postDelayed({
+            // Go to Signin screen
             val intent = Intent(this, Signin::class.java)
             startActivity(intent)
             finish()
-        }, 4000)
+        }, 3000) // Reduced to 3 seconds
 
-
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.profilesetupsuccess)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
     }
 }

@@ -4,9 +4,11 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
@@ -25,29 +27,35 @@ class SetUpProfile : AppCompatActivity() {
     private lateinit var profileImageView: ImageView
     private lateinit var requestQueue: com.android.volley.RequestQueue
 
-    // Image picker launcher
+    companion object {
+        private const val TAG = "SetUpProfile"
+    }
+
     private val imagePickerLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
             selectedImageUri = it
+            Log.d(TAG, "Image selected: $it")
             Picasso.get()
                 .load(it)
                 .placeholder(R.drawable.dp_circle)
                 .error(R.drawable.dp_circle)
                 .into(profileImageView)
+            Toast.makeText(this, "Image selected!", Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate called")
         setContentView(R.layout.setupprofile)
 
-        // Initialize Volley request queue
         requestQueue = Volley.newRequestQueue(this)
 
-        // Get user ID from intent
         userId = intent.getIntExtra("user_id", -1)
+        Log.d(TAG, "User ID: $userId")
+
         if (userId == -1) {
             Toast.makeText(this, "Error: User ID not found", Toast.LENGTH_SHORT).show()
             finish()
@@ -63,9 +71,21 @@ class SetUpProfile : AppCompatActivity() {
         val backarr = findViewById<ImageView>(R.id.btnBack)
         profileImageView = findViewById(R.id.ivProfileImage)
         val editImageBtn = findViewById<ImageView>(R.id.btnEditImage)
+        val profileContainer = findViewById<RelativeLayout>(R.id.profileImageContainer)
 
-        // Image picker
+        // Make profile card clickable
+        profileContainer.setOnClickListener {
+            Log.d(TAG, "Profile container clicked")
+            imagePickerLauncher.launch("image/*")
+        }
+
         editImageBtn.setOnClickListener {
+            Log.d(TAG, "Edit image button clicked")
+            imagePickerLauncher.launch("image/*")
+        }
+
+        profileImageView.setOnClickListener {
+            Log.d(TAG, "Profile image clicked")
             imagePickerLauncher.launch("image/*")
         }
 
@@ -105,42 +125,49 @@ class SetUpProfile : AppCompatActivity() {
             val nickname = nicknameInput.text.toString().trim()
             val gender = genderInput.text.toString().trim()
 
-            // Validate at least name is provided
+            Log.d(TAG, "Save clicked - Name: '$name', Nickname: '$nickname', Gender: '$gender'")
+
             if (name.isEmpty()) {
                 Toast.makeText(this, "Please enter your name", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Disable button during request
             savebtn.isEnabled = false
             savebtn.text = "Saving..."
 
-            // First upload image if selected, then update profile
+            // ✅ UPDATED: Upload image first if selected
             if (selectedImageUri != null) {
+                Log.d(TAG, "Uploading image first")
                 uploadImageWithVolley(selectedImageUri!!) { imageSuccess, imageMessage, imagePath ->
                     if (imageSuccess) {
-                        // Image uploaded, now update profile with image path
-                        updateProfileWithVolley(name, nickname, selectedDate, gender, imagePath) { success, message ->
+                        Log.d(TAG, "Image uploaded: $imagePath")
+                        createPatientProfileWithVolley(name, nickname, selectedDate, gender, imagePath) { success, message ->
                             handleSaveResponse(savebtn, success, message)
                         }
                     } else {
-                        // Image upload failed, but continue with profile update
-                        Toast.makeText(this, "Image upload failed: $imageMessage", Toast.LENGTH_SHORT).show()
-                        updateProfileWithVolley(name, nickname, selectedDate, gender, null) { success, message ->
+                        Log.e(TAG, "Image upload failed: $imageMessage")
+                        Toast.makeText(this, "Image upload failed, continuing without image", Toast.LENGTH_SHORT).show()
+                        createPatientProfileWithVolley(name, nickname, selectedDate, gender, null) { success, message ->
                             handleSaveResponse(savebtn, success, message)
                         }
                     }
                 }
             } else {
-                // No image selected, just update profile
-                updateProfileWithVolley(name, nickname, selectedDate, gender, null) { success, message ->
+                Log.d(TAG, "No image selected, saving without image")
+                createPatientProfileWithVolley(name, nickname, selectedDate, gender, null) { success, message ->
                     handleSaveResponse(savebtn, success, message)
                 }
             }
         }
 
         backarr.setOnClickListener {
-            finish()
+            Log.d(TAG, "Back button clicked")
+            android.app.AlertDialog.Builder(this)
+                .setTitle("Cancel Profile Setup?")
+                .setMessage("Are you sure you want to cancel? Your progress will be lost.")
+                .setPositiveButton("Yes") { _, _ -> finish() }
+                .setNegativeButton("No", null)
+                .show()
         }
     }
 
@@ -150,23 +177,36 @@ class SetUpProfile : AppCompatActivity() {
             savebtn.text = "Save"
 
             if (success) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                val sharedPreferences = getSharedPreferences("MedQuePrefs", MODE_PRIVATE)
+                with(sharedPreferences.edit()) {
+                    putInt("user_id", userId)
+                    putString("user_type", "patient")
+                    putBoolean("profile_completed", true) // ✅ Profile completed
+                    putBoolean("isLoggedIn", false) // ✅ NOT logged in - needs to login
+                    apply()
+                }
+
+                Toast.makeText(this, "Profile created successfully!", Toast.LENGTH_SHORT).show()
+
+                // Navigate to ProfileSetUpSuccess
                 val intent = Intent(this, ProfileSetUpSuccess::class.java)
+                intent.putExtra("user_id", userId)
                 startActivity(intent)
                 finish()
-            } else {
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
             }
         }
     }
 
+    // ✅ UPDATED: Use new upload_patient_image.php endpoint
     private fun uploadImageWithVolley(imageUri: Uri, callback: (Boolean, String, String?) -> Unit) {
-        val url = "$BASE_URL/upload_image.php"
+        val url = "$BASE_URL/upload_patient_image.php"
+        Log.d(TAG, "Uploading image to: $url")
 
         val stringRequest = object : StringRequest(
             Request.Method.POST, url,
             { response ->
                 try {
+                    Log.d(TAG, "Image upload response: $response")
                     val jsonResponse = JSONObject(response)
                     val success = jsonResponse.getBoolean("success")
                     val message = jsonResponse.getString("message")
@@ -175,7 +215,7 @@ class SetUpProfile : AppCompatActivity() {
                     } else null
                     callback(success, message, imagePath)
                 } catch (e: Exception) {
-                    e.printStackTrace()
+                    Log.e(TAG, "Error parsing image response: ${e.message}")
                     callback(false, "Failed to parse response", null)
                 }
             },
@@ -183,6 +223,7 @@ class SetUpProfile : AppCompatActivity() {
                 val errorMessage = error.networkResponse?.let {
                     String(it.data, Charsets.UTF_8)
                 } ?: error.message ?: "Network error"
+                Log.e(TAG, "Image upload error: $errorMessage")
                 callback(false, errorMessage, null)
             }
         ) {
@@ -199,13 +240,11 @@ class SetUpProfile : AppCompatActivity() {
             private fun createImageRequestBody(imageUri: Uri): ByteArray {
                 val outputStream = ByteArrayOutputStream()
 
-                // Add user_id parameter
                 outputStream.write("--$boundary\r\n".toByteArray())
                 outputStream.write("Content-Disposition: form-data; name=\"user_id\"\r\n\r\n".toByteArray())
                 outputStream.write("$userId\r\n".toByteArray())
 
-                // Add image file
-                val fileName = "profile_${userId}_${System.currentTimeMillis()}.jpg"
+                val fileName = "patient_${userId}_${System.currentTimeMillis()}.jpg"
                 outputStream.write("--$boundary\r\n".toByteArray())
                 outputStream.write("Content-Disposition: form-data; name=\"image\"; filename=\"$fileName\"\r\n".toByteArray())
                 outputStream.write("Content-Type: image/jpeg\r\n\r\n".toByteArray())
@@ -229,7 +268,8 @@ class SetUpProfile : AppCompatActivity() {
         requestQueue.add(stringRequest)
     }
 
-    private fun updateProfileWithVolley(
+    // ✅ NEW: Use create_patient_profile.php endpoint
+    private fun createPatientProfileWithVolley(
         name: String,
         nickname: String,
         dob: String?,
@@ -237,7 +277,7 @@ class SetUpProfile : AppCompatActivity() {
         profilePicture: String?,
         callback: (Boolean, String) -> Unit
     ) {
-        val url = "$BASE_URL/update_profile.php"
+        val url = "$BASE_URL/create_patient_profile.php"
         val jsonObject = JSONObject().apply {
             put("user_id", userId)
             put("name", name)
@@ -247,9 +287,12 @@ class SetUpProfile : AppCompatActivity() {
             if (profilePicture != null) put("profile_picture", profilePicture)
         }
 
+        Log.d(TAG, "Creating profile with: $jsonObject")
+
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, jsonObject,
             { response ->
+                Log.d(TAG, "Profile creation response: $response")
                 val success = response.getBoolean("success")
                 val message = response.getString("message")
                 callback(success, message)
@@ -258,6 +301,7 @@ class SetUpProfile : AppCompatActivity() {
                 val errorMessage = error.networkResponse?.let {
                     String(it.data, Charsets.UTF_8)
                 } ?: error.message ?: "Network error"
+                Log.e(TAG, "Profile creation error: $errorMessage")
                 callback(false, errorMessage)
             }
         )
