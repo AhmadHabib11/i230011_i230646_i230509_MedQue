@@ -20,7 +20,7 @@ import org.json.JSONObject
 
 class DoctorHome : AppCompatActivity() {
 
-    private val BASE_URL = "http://192.168.18.37/medque_app"
+    private val BASE_URL = "http://192.168.100.22/medque_app"
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var requestQueue: com.android.volley.RequestQueue
 

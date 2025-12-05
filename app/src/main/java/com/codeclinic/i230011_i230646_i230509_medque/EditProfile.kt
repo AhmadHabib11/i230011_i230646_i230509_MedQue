@@ -245,6 +245,7 @@ class EditProfile : AppCompatActivity() {
     private fun updateProfileWithVolley() {
         val name = etFullName.text.toString().trim()
         val nickname = etNickname.text.toString().trim()
+        val email = etEmail.text.toString().trim()  // Add this line
         val gender = tvGender.text.toString()
         val userId = sharedPreferences.getInt("user_id", -1)
 
@@ -258,6 +259,11 @@ class EditProfile : AppCompatActivity() {
             return
         }
 
+        if (email.isEmpty()) {
+            Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val savebtn = findViewById<MaterialTextView>(R.id.btnSave)
         savebtn.isEnabled = false
         savebtn.text = "Saving..."
@@ -267,6 +273,7 @@ class EditProfile : AppCompatActivity() {
             put("user_id", userId)
             put("name", name)
             put("nickname", nickname)
+            put("email", email)  // Add this line
             if (selectedDate != null) put("dob", selectedDate)
             put("gender", gender)
             val profilePicture = sharedPreferences.getString("profile_picture", null)
@@ -287,6 +294,7 @@ class EditProfile : AppCompatActivity() {
                     with(sharedPreferences.edit()) {
                         putString("name", name)
                         putString("nickname", nickname)
+                        putString("email", email)  // Add this line
                         if (selectedDate != null) putString("dob", selectedDate)
                         putString("gender", gender)
                         apply()
@@ -313,7 +321,7 @@ class EditProfile : AppCompatActivity() {
     }
 
     private fun uploadImageWithVolley(imageUri: Uri, callback: (Boolean, String, String?) -> Unit) {
-        val url = "$BASE_URL/upload_image.php"
+        val url = "$BASE_URL/upload_patient_image.php"  // Changed from upload_image.php
         val userId = sharedPreferences.getInt("user_id", -1)
 
         if (userId == -1) {
@@ -363,7 +371,7 @@ class EditProfile : AppCompatActivity() {
                 outputStream.write("$userId\r\n".toByteArray())
 
                 // Add image file
-                val fileName = "profile_${userId}_${System.currentTimeMillis()}.jpg"
+                val fileName = "patient_${userId}_${System.currentTimeMillis()}.jpg"
                 outputStream.write("--$boundary\r\n".toByteArray())
                 outputStream.write("Content-Disposition: form-data; name=\"image\"; filename=\"$fileName\"\r\n".toByteArray())
                 outputStream.write("Content-Type: image/jpeg\r\n\r\n".toByteArray())
