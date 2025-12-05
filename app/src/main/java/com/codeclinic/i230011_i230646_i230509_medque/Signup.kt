@@ -1,6 +1,7 @@
 package com.codeclinic.i230011_i230646_i230509_medque
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -14,8 +15,9 @@ import org.json.JSONObject
 
 class Signup : AppCompatActivity() {
 
-    private val BASE_URL = "http://192.168.18.37/medque_app"
+    private val BASE_URL = "http://192.168.1.3/medque_app"
     private lateinit var requestQueue: com.android.volley.RequestQueue
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +25,7 @@ class Signup : AppCompatActivity() {
 
         // Initialize Volley RequestQueue
         requestQueue = Volley.newRequestQueue(this)
+        sharedPreferences = getSharedPreferences("MedQuePrefs", MODE_PRIVATE)
 
         val emailInput = findViewById<EditText>(R.id.emailInput)
         val passwordInput = findViewById<EditText>(R.id.passwordInput)
@@ -60,6 +63,12 @@ class Signup : AppCompatActivity() {
 
                 if (success && userId != null) {
                     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+                    // Mark that user has seen onboarding (they came through signup)
+                    with(sharedPreferences.edit()) {
+                        putBoolean("hasSeenOnboarding", true)
+                        apply()
+                    }
 
                     // Navigate to profile setup with user ID
                     val intent = Intent(this, SetUpProfile::class.java)

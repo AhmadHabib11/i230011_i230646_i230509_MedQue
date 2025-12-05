@@ -19,7 +19,7 @@ import org.json.JSONObject
 
 class Signin : AppCompatActivity() {
 
-    private val BASE_URL = "http://192.168.18.37/medque_app"
+    private val BASE_URL = "http://192.168.1.3/medque_app"
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var requestQueue: com.android.volley.RequestQueue
 
@@ -65,6 +65,12 @@ class Signin : AppCompatActivity() {
                 if (success && userData != null) {
                     // Save user data to SharedPreferences
                     saveUserData(userData)
+
+                    // Mark that user has seen onboarding (they came through signin)
+                    with(sharedPreferences.edit()) {
+                        putBoolean("hasSeenOnboarding", true)
+                        apply()
+                    }
 
                     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 

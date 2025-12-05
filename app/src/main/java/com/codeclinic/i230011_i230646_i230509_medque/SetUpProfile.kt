@@ -18,7 +18,7 @@ import java.util.*
 
 class SetUpProfile : AppCompatActivity() {
 
-    private val BASE_URL = "http://192.168.18.37/medque_app"
+    private val BASE_URL = "http://192.168.1.3/medque_app"
     private var userId: Int = -1
     private var selectedDate: String? = null
     private var selectedImageUri: Uri? = null
@@ -144,13 +144,19 @@ class SetUpProfile : AppCompatActivity() {
         }
     }
 
+    // In your SetUpProfile.kt, add this to the success callback:
     private fun handleSaveResponse(savebtn: Button, success: Boolean, message: String) {
         runOnUiThread {
             savebtn.isEnabled = true
             savebtn.text = "Save"
 
             if (success) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                // DO NOT set isLoggedIn here!
+                // User needs to login manually
+
+                Toast.makeText(this, "Profile setup complete! Please login.", Toast.LENGTH_SHORT).show()
+
+                // Go to ProfileSetUpSuccess which will redirect to Signin
                 val intent = Intent(this, ProfileSetUpSuccess::class.java)
                 startActivity(intent)
                 finish()
