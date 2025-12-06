@@ -38,6 +38,23 @@ class Signin : AppCompatActivity() {
         requestQueue = Volley.newRequestQueue(this)
         sharedPreferences = getSharedPreferences("MedQuePrefs", MODE_PRIVATE)
 
+        // ✅ Check if user is already logged in (skip if coming from logout)
+        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+        val userTypeStored = sharedPreferences.getString("user_type", "patient")
+
+        if (isLoggedIn) {
+            // User is already logged in, redirect to appropriate home
+            Log.d(TAG, "User already logged in, redirecting to home")
+            val intent = when (userTypeStored) {
+                "doctor" -> Intent(this, DoctorHome::class.java)
+                else -> Intent(this, Home::class.java)
+            }
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+            return // Stop here, don't load the signin UI
+        }
+
         val emailInput = findViewById<EditText>(R.id.emailInput)
         val passwordInput = findViewById<EditText>(R.id.passwordInput)
         val signinbtn = findViewById<Button>(R.id.signInButton)
@@ -91,7 +108,6 @@ class Signin : AppCompatActivity() {
 
         forgotpasswordbtn.setOnClickListener {
             startActivity(Intent(this, ForgotPassword::class.java))
-            finish()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.signin)) { v, insets ->
@@ -173,6 +189,7 @@ class Signin : AppCompatActivity() {
                 putString("dob", data.optString("dob", ""))
                 putString("gender", data.optString("gender", ""))
                 putString("profile_picture", data.optString("profile_picture", ""))
+                putString("created_at", data.optString("created_at", ""))
             }
 
             // Doctor-specific data from doctors table
@@ -200,6 +217,7 @@ class Signin : AppCompatActivity() {
             "doctor" -> Intent(this, DoctorHome::class.java)
             else -> Intent(this, Home::class.java)
         }
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }

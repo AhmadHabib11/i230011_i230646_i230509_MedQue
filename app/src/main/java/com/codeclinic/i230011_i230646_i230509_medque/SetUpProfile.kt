@@ -201,9 +201,9 @@ class SetUpProfile : AppCompatActivity() {
         }
     }
 
-    // ✅ UPDATED: Use new upload_patient_image.php endpoint
+    // ✅ UPDATED: Use temporary upload endpoint (no DB update yet)
     private fun uploadImageWithVolley(imageUri: Uri, callback: (Boolean, String, String?) -> Unit) {
-        val url = "$BASE_URL/upload_patient_image.php"
+        val url = "$BASE_URL/upload_image_temp.php"  // ✅ Changed to temp endpoint
         Log.d(TAG, "Uploading image to: $url")
 
         val stringRequest = object : StringRequest(
