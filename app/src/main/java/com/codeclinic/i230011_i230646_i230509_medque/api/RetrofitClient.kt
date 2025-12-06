@@ -8,10 +8,9 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
     
-    // Update this with your computer's IP address
-    // Find your IP: Open CMD and type 'ipconfig', look for IPv4 Address
-    private const val BASE_URL = "http://192.168.100.22/medque_app/"  // For Android Emulator
-    // Use "http://YOUR_COMPUTER_IP/medque_app/" for real device
+
+    private const val BASE_URL = "http://192.168.18.37/medque_app/"  // For Android Emulator
+
     
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

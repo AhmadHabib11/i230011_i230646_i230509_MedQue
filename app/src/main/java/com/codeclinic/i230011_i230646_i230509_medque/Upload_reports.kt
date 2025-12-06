@@ -180,7 +180,7 @@ class Upload_reports : AppCompatActivity() {
             val fileBase64 = android.util.Base64.encodeToString(fileBytes, android.util.Base64.DEFAULT)
             
             // Upload to server
-            val url = "http://192.168.100.22/medque_app/upload_report.php" // Use 192.168.100.22 for emulator
+            val url = "http://192.168.18.37/medque_app/upload_report.php" // Use 192.168.18.37 for emulator
             
             val request = object : StringRequest(
                 Request.Method.POST, url,
