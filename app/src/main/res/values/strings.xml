@@ -83,7 +83,6 @@
     <string name="doctor8_specialty">Cardiologist</string>
     <string name="doctor8_location">Heart Health Clinic</string>
 
-
     <!-- Cancelled Appointments -->
     <string name="booking_date_time">March 12, 2023 - 11.00 AM</string>
     <string name="doctor_sarah_name">Dr. Sarah Johnson</string>
@@ -162,6 +161,6 @@
     <string name="upcoming_booking3_datetime">June 21, 2023 - 10.00 AM</string>
     <string name="reschedule_button">Reschedule</string>
 
-<!--    <string name="192.168.100.22">ip</string>-->
+<!--    <string name="192.168.1.2">ip</string>-->
 
 </resources>

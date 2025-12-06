@@ -116,6 +116,19 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp" />
 
+    <!-- No Appointments Text -->
+    <TextView
+        android:id="@+id/no_appointments_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No upcoming appointments"
+        android:textColor="#808080"
+        android:textSize="14sp"
+        android:layout_below="@id/current_appointment_label"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
     <!-- Appointment Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/appointment_card"
@@ -127,7 +140,8 @@
         android:layout_below="@id/current_appointment_label"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/white">
+        app:cardBackgroundColor="@color/white"
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -155,7 +169,7 @@
                 android:layout_below="@id/appointment_time"
                 android:layout_marginTop="6dp" />
 
-            <!-- Clinic Name -->
+            <!-- Specialization -->
             <TextView
                 android:id="@+id/clinic_name"
                 android:layout_width="wrap_content"
