@@ -191,31 +191,57 @@ class UpcomingAppointments : AppCompatActivity() {
             put("cancellation_reason", "Cancelled by patient")
         }
 
-        Log.d("UpcomingAppointments", "Cancelling appointment: $appointmentId")
+        Log.d("UpcomingAppointments", "Cancelling appointment")
+        Log.d("UpcomingAppointments", "Appointment ID: $appointmentId")
+        Log.d("UpcomingAppointments", "User ID: $userId")
+        Log.d("UpcomingAppointments", "Request: $jsonObject")
 
-        val jsonObjectRequest = JsonObjectRequest(
+        val jsonObjectRequest = object : JsonObjectRequest(
             Request.Method.POST, url, jsonObject,
             { response ->
                 Log.d("UpcomingAppointments", "Cancel response: $response")
                 try {
                     if (response.getBoolean("success")) {
                         Toast.makeText(this, "Appointment cancelled successfully", Toast.LENGTH_SHORT).show()
-                        // Reload appointments to refresh the list
                         loadUpcomingAppointments()
                     } else {
                         val message = response.getString("message")
+                        Log.e("UpcomingAppointments", "Cancel failed: $message")
+
+                        // Check for debug info
+                        if (response.has("debug")) {
+                            val debug = response.getJSONObject("debug")
+                            Log.e("UpcomingAppointments", "Debug info: $debug")
+                        }
+
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
-                    Log.e("UpcomingAppointments", "Error: ${e.message}")
+                    Log.e("UpcomingAppointments", "Error parsing response: ${e.message}")
+                    e.printStackTrace()
                     Toast.makeText(this, "Error cancelling appointment", Toast.LENGTH_SHORT).show()
                 }
             },
             { error ->
                 Log.e("UpcomingAppointments", "Network error: ${error.message}")
-                Toast.makeText(this, "Network error. Please try again.", Toast.LENGTH_SHORT).show()
+                error.networkResponse?.let {
+                    val responseBody = String(it.data, Charsets.UTF_8)
+                    Log.e("UpcomingAppointments", "Status code: ${it.statusCode}")
+                    Log.e("UpcomingAppointments", "Response body: $responseBody")
+
+                    // Show first 200 chars of HTML error
+                    Toast.makeText(
+                        this,
+                        "Server error - check logs",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
-        )
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                return hashMapOf("Content-Type" to "application/json")
+            }
+        }
 
         requestQueue.add(jsonObjectRequest)
     }

@@ -63,15 +63,18 @@ class CancelledAppointments : AppCompatActivity() {
             put("user_id", userId)
         }
 
-        Log.d("CancelledAppointments", "Requesting: $url with user_id: $userId")
+        Log.d("CancelledAppointments", "Requesting: $url")
+        Log.d("CancelledAppointments", "User ID: $userId")
+        Log.d("CancelledAppointments", "Request body: $jsonObject")
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, jsonObject,
             { response ->
-                Log.d("CancelledAppointments", "Response: $response")
+                Log.d("CancelledAppointments", "Full response: $response")
                 try {
                     if (response.getBoolean("success")) {
                         val dataArray = response.getJSONArray("data")
+                        Log.d("CancelledAppointments", "Found ${dataArray.length()} cancelled appointments")
                         appointments.clear()
 
                         if (dataArray.length() == 0) {
@@ -79,6 +82,8 @@ class CancelledAppointments : AppCompatActivity() {
                         } else {
                             for (i in 0 until dataArray.length()) {
                                 val appointmentJson = dataArray.getJSONObject(i)
+                                Log.d("CancelledAppointments", "Cancelled appointment $i: $appointmentJson")
+
                                 val appointment = Appointment(
                                     appointment_id = appointmentJson.getInt("appointment_id"),
                                     appointment_date = appointmentJson.getString("appointment_date"),
@@ -100,17 +105,25 @@ class CancelledAppointments : AppCompatActivity() {
                         }
                     } else {
                         val message = response.getString("message")
+                        Log.e("CancelledAppointments", "API error: $message")
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                         showEmptyState()
                     }
                 } catch (e: Exception) {
                     Log.e("CancelledAppointments", "Error parsing: ${e.message}")
+                    e.printStackTrace()
                     Toast.makeText(this, "Error loading appointments", Toast.LENGTH_SHORT).show()
+                    showEmptyState()
                 }
             },
             { error ->
                 Log.e("CancelledAppointments", "Network error: ${error.message}")
+                error.networkResponse?.let {
+                    Log.e("CancelledAppointments", "Status code: ${it.statusCode}")
+                    Log.e("CancelledAppointments", "Response: ${String(it.data)}")
+                }
                 Toast.makeText(this, "Network error. Please try again.", Toast.LENGTH_SHORT).show()
+                showEmptyState()
             }
         )
 
@@ -179,26 +192,37 @@ class CancelledAppointments : AppCompatActivity() {
 
         tabUpcoming.setOnClickListener {
             startActivity(Intent(this, UpcomingAppointments::class.java))
+            finish()
         }
 
         tabCompleted.setOnClickListener {
             startActivity(Intent(this, CompletedAppointments::class.java))
+            finish()
         }
 
         navHome.setOnClickListener {
             startActivity(Intent(this, Home::class.java))
+            finish()
         }
 
         navSearch.setOnClickListener {
             startActivity(Intent(this, Searchdoctor::class.java))
+            finish()
         }
 
         navCalendar.setOnClickListener {
-            // Stay on current page
+            // Already on calendar section
         }
 
         navProfile.setOnClickListener {
             startActivity(Intent(this, Profile::class.java))
+            finish()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Reload when returning to this screen
+        loadCancelledAppointments()
     }
 }
