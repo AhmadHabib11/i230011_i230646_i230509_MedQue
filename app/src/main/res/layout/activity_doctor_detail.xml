@@ -178,10 +178,11 @@
                         android:src="@drawable/profile_2" />
 
                     <TextView
+                        android:id="@+id/patients_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="2,000+"
+                        android:text="0"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -212,10 +213,11 @@
                         android:src="@drawable/medal" />
 
                     <TextView
+                        android:id="@+id/experience_years"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="10+"
+                        android:text="0"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -246,10 +248,11 @@
                         android:src="@drawable/star"/>
 
                     <TextView
+                        android:id="@+id/doctor_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="5"
+                        android:text="5.0"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -280,10 +283,11 @@
                         android:src="@drawable/messages" />
 
                     <TextView
+                        android:id="@+id/reviews_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="1,872"
+                        android:text="0"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />

@@ -22,7 +22,6 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.textview.MaterialTextView
 import com.squareup.picasso.Picasso
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
@@ -47,7 +46,7 @@ class EditProfile : AppCompatActivity() {
     private var selectedDate: String? = null
     private var selectedImageUri: Uri? = null
 
-    private val BASE_URL = "http://192.168.1.3/medque_app"
+    private val BASE_URL = "http://192.168.1.2/medque_app"
 
     // Image picker launcher
     private val imagePickerLauncher = registerForActivityResult(
@@ -69,9 +68,9 @@ class EditProfile : AppCompatActivity() {
                         putString("profile_picture", imagePath)
                         apply()
                     }
-                    Toast.makeText(this, "Profile picture updated", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@EditProfile, "Profile picture updated", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Failed to update profile picture: $message", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@EditProfile, "Failed to update profile picture: $message", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -86,7 +85,7 @@ class EditProfile : AppCompatActivity() {
         requestQueue = Volley.newRequestQueue(this)
         sharedPreferences = getSharedPreferences("MedQuePrefs", MODE_PRIVATE)
 
-        val savebtn = findViewById<MaterialTextView>(R.id.btnSave)
+        val savebtn = findViewById<TextView>(R.id.btnSave)
         savebtn.setOnClickListener {
             updateProfileWithVolley()
         }
@@ -258,7 +257,7 @@ class EditProfile : AppCompatActivity() {
             return
         }
 
-        val savebtn = findViewById<MaterialTextView>(R.id.btnSave)
+        val savebtn = findViewById<TextView>(R.id.btnSave)
         savebtn.isEnabled = false
         savebtn.text = "Saving..."
 
@@ -321,6 +320,8 @@ class EditProfile : AppCompatActivity() {
             return
         }
 
+        val boundary = "Boundary-${System.currentTimeMillis()}"
+        
         val stringRequest = object : StringRequest(
             Request.Method.POST, url,
             { response ->
@@ -334,7 +335,7 @@ class EditProfile : AppCompatActivity() {
                     callback(success, message, imagePath)
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    callback(false, "Failed to parse response", null)
+                    callback(false, "Failed to parse response: ${e.message}", null)
                 }
             },
             { error ->
@@ -345,40 +346,38 @@ class EditProfile : AppCompatActivity() {
             }
         ) {
             override fun getBodyContentType(): String {
-                return "multipart/form-data;boundary=$boundary"
+                return "multipart/form-data; boundary=$boundary"
             }
 
             override fun getBody(): ByteArray {
-                return createImageRequestBody(imageUri, userId)
-            }
-
-            private val boundary = "Boundary-${System.currentTimeMillis()}"
-
-            private fun createImageRequestBody(imageUri: Uri, userId: Int): ByteArray {
                 val outputStream = ByteArrayOutputStream()
 
-                // Add user_id parameter
-                outputStream.write("--$boundary\r\n".toByteArray())
-                outputStream.write("Content-Disposition: form-data; name=\"user_id\"\r\n\r\n".toByteArray())
-                outputStream.write("$userId\r\n".toByteArray())
+                try {
+                    // Add user_id parameter
+                    outputStream.write("--$boundary\r\n".toByteArray())
+                    outputStream.write("Content-Disposition: form-data; name=\"user_id\"\r\n\r\n".toByteArray())
+                    outputStream.write("$userId\r\n".toByteArray())
 
-                // Add image file
-                val fileName = "profile_${userId}_${System.currentTimeMillis()}.jpg"
-                outputStream.write("--$boundary\r\n".toByteArray())
-                outputStream.write("Content-Disposition: form-data; name=\"image\"; filename=\"$fileName\"\r\n".toByteArray())
-                outputStream.write("Content-Type: image/jpeg\r\n\r\n".toByteArray())
+                    // Add image file
+                    val fileName = "profile_${userId}_${System.currentTimeMillis()}.jpg"
+                    outputStream.write("--$boundary\r\n".toByteArray())
+                    outputStream.write("Content-Disposition: form-data; name=\"image\"; filename=\"$fileName\"\r\n".toByteArray())
+                    outputStream.write("Content-Type: image/jpeg\r\n\r\n".toByteArray())
 
-                val inputStream = contentResolver.openInputStream(imageUri)
-                inputStream?.use { input ->
-                    val buffer = ByteArray(4096)
-                    var bytesRead: Int
-                    while (input.read(buffer).also { bytesRead = it } != -1) {
-                        outputStream.write(buffer, 0, bytesRead)
+                    val inputStream = contentResolver.openInputStream(imageUri)
+                    inputStream?.use { input ->
+                        val buffer = ByteArray(4096)
+                        var bytesRead: Int
+                        while (input.read(buffer).also { bytesRead = it } != -1) {
+                            outputStream.write(buffer, 0, bytesRead)
+                        }
                     }
-                }
 
-                outputStream.write("\r\n".toByteArray())
-                outputStream.write("--$boundary--\r\n".toByteArray())
+                    outputStream.write("\r\n".toByteArray())
+                    outputStream.write("--$boundary--\r\n".toByteArray())
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
 
                 return outputStream.toByteArray()
             }

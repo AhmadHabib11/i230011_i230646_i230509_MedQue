@@ -90,7 +90,7 @@ c:\xampp\htdocs\medque_app\uploads\reports\
 ### For Android Emulator
 URL in code is already correct:
 ```kotlin
-val url = "http://10.0.2.2/medque_app/upload_report.php"
+val url = "http://192.168.1.2/medque_app/upload_report.php"
 ```
 
 ### For Real Android Device

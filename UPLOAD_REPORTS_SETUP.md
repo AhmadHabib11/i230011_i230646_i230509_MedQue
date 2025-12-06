@@ -70,7 +70,7 @@ The Upload Reports feature has been converted from static/hardcoded to fully dyn
 
 ### Step 3: Update API URL (if needed)
 If not using Android Emulator, update the URL in `Upload_reports.kt`:
-- For Emulator: `http://10.0.2.2/medque_app/upload_report.php` (current)
+- For Emulator: `http://192.168.1.2/medque_app/upload_report.php` (current)
 - For Real Device: `http://YOUR_LOCAL_IP/medque_app/upload_report.php`
   - Find your IP: Run `ipconfig` in Windows CMD and look for IPv4 Address
   - Example: `http://192.168.1.100/medque_app/upload_report.php`
@@ -107,7 +107,7 @@ User redirected to Home
 ## API Endpoints
 
 ### Upload Report
-- **URL**: `http://10.0.2.2/medque_app/upload_report.php`
+- **URL**: `http://192.168.1.2/medque_app/upload_report.php`
 - **Method**: POST
 - **Parameters**:
   - `user_id`: User ID (integer)
@@ -129,7 +129,7 @@ User redirected to Home
   ```
 
 ### Get Reports
-- **URL**: `http://10.0.2.2/medque_app/get_reports.php`
+- **URL**: `http://192.168.1.2/medque_app/get_reports.php`
 - **Method**: POST or GET
 - **Parameters**:
   - `user_id`: User ID (integer)
@@ -174,7 +174,7 @@ User redirected to Home
 
 ### Issue: Cannot connect to server
 - Verify XAMPP is running (Apache and MySQL)
-- Check API URL is correct (10.0.2.2 for emulator)
+- Check API URL is correct (192.168.1.2 for emulator)
 - For real device, use computer's local IP address
 - Ensure `android:usesCleartextTraffic="true"` in AndroidManifest
 
