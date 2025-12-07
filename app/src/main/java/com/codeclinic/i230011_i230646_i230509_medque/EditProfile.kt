@@ -25,7 +25,6 @@ import com.android.volley.toolbox.Volley
 import com.codeclinic.i230011_i230646_i230509_medque.utils.FirebaseRealtimeHelper
 import com.squareup.picasso.Picasso
 import org.json.JSONObject
-import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,6 +45,7 @@ class EditProfile : AppCompatActivity() {
     private val calendar = Calendar.getInstance()
     private var selectedDate: String? = null
     private var selectedImageUri: Uri? = null
+    private var newImagePath: String? = null  // Track newly uploaded image
 
     private val BASE_URL = "http://192.168.18.37/medque_app"
 
@@ -78,12 +78,9 @@ class EditProfile : AppCompatActivity() {
                     // Then upload to MySQL via PHP with Base64
                     uploadImageToMySQL(userId, base64String) { mysqlSuccess, mysqlMessage, imagePath ->
                         if (mysqlSuccess && imagePath != null) {
-                            // Save image path to SharedPreferences
-                            with(sharedPreferences.edit()) {
-                                putString("profile_picture", imagePath)
-                                apply()
-                            }
-                            Toast.makeText(this@EditProfile, "Profile picture updated in both Firebase and MySQL", Toast.LENGTH_SHORT).show()
+                            // Store the new image path temporarily (will be saved when Save button is clicked)
+                            newImagePath = imagePath
+                            Toast.makeText(this@EditProfile, "Profile picture ready to save", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(this@EditProfile, "MySQL upload failed: $mysqlMessage", Toast.LENGTH_SHORT).show()
                         }
@@ -287,8 +284,12 @@ class EditProfile : AppCompatActivity() {
             put("nickname", nickname)
             if (selectedDate != null) put("dob", selectedDate)
             put("gender", gender)
-            val profilePicture = sharedPreferences.getString("profile_picture", null)
-            if (profilePicture != null) put("profile_picture", profilePicture)
+
+            // Use the newly uploaded image path if available, otherwise keep the existing one
+            val profilePicture = newImagePath ?: sharedPreferences.getString("profile_picture", null)
+            if (profilePicture != null) {
+                put("profile_picture", profilePicture)
+            }
         }
 
         val jsonObjectRequest = JsonObjectRequest(
@@ -307,6 +308,10 @@ class EditProfile : AppCompatActivity() {
                         putString("nickname", nickname)
                         if (selectedDate != null) putString("dob", selectedDate)
                         putString("gender", gender)
+                        // Save the new image path if available
+                        if (newImagePath != null) {
+                            putString("profile_picture", newImagePath)
+                        }
                         apply()
                     }
 
