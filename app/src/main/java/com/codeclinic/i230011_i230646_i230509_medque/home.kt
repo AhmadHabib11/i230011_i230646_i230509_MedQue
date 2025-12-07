@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -37,8 +38,8 @@ class home : AppCompatActivity() {
     // Configuration - Toggle between implementations
     private val USE_RETROFIT = false // Set to false to use Volley implementation
 
-    private val BASE_URL = "http://192.168.100.22/medque_app"
-    private val RETROFIT_BASE_URL = "http://192.168.100.22/medque_app/uploads/"
+    private val BASE_URL = "http://192.168.18.37/medque_app"
+    private val RETROFIT_BASE_URL = "http://192.168.18.37/medque_app/uploads/"
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var requestQueue: com.android.volley.RequestQueue
@@ -62,6 +63,8 @@ class home : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
 
+
+        NotificationPermissionHelper.checkAndRequestPermission(this)
         sharedPreferences = getSharedPreferences("MedQuePrefs", MODE_PRIVATE)
 
         if (!USE_RETROFIT) {
@@ -104,6 +107,24 @@ class home : AppCompatActivity() {
         noAppointmentsText = findViewById(R.id.no_appointments_text)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == NotificationPermissionHelper.PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() &&
+                grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                Log.d("Home", "Notification permission granted")
+            } else {
+                Toast.makeText(this,
+                    "You won't receive appointment notifications",
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     private fun setupNavigationButtons() {
         val uploadReportBtn = findViewById<TextView>(R.id.upload_report_btn)
         uploadReportBtn.setOnClickListener {
@@ -579,3 +600,4 @@ class home : AppCompatActivity() {
         loadAppointments()
     }
 }
+

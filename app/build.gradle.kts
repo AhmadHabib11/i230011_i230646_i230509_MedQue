@@ -74,7 +74,10 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
-    // Firebase (optional - only if you need it)
-    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
-    implementation("com.google.firebase:firebase-database")
+    // Firebase BOM (Bill of Materials) - manages versions
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+
+    // Firebase services - versions managed by BOM
+    implementation("com.google.firebase:firebase-database-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
 }

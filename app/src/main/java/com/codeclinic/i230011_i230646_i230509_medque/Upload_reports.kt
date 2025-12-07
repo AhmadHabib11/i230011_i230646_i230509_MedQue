@@ -203,7 +203,7 @@ class Upload_reports : AppCompatActivity() {
     }
     
     private fun uploadToMySQL(userId: Int, fileName: String, fileBase64: String) {
-        val url = "http://192.168.100.22/medque_app/upload_report.php"
+        val url = "http://192.168.18.37/medque_app/upload_report.php"
         
         val request = object : StringRequest(
             Request.Method.POST, url,
