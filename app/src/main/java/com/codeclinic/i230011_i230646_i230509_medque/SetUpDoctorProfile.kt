@@ -18,7 +18,7 @@ import java.io.ByteArrayOutputStream
 
 class SetUpDoctorProfile : AppCompatActivity() {
 
-    private val BASE_URL = "http://192.168.1.2/medque_app"
+    private val BASE_URL = "http://192.168.1.4/medque_app"
     private var userId: Int = -1
     private var selectedImageUri: Uri? = null
     private lateinit var profileImageView: ImageView

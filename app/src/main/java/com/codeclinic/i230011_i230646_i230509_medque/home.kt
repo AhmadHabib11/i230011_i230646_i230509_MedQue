@@ -142,7 +142,7 @@ class Home : AppCompatActivity() {
                         
                         // Load profile picture if available
                         if (!patient.profile_picture.isNullOrEmpty()) {
-                            val imageUrl = "http://192.168.1.2/medque_app/uploads/${patient.profile_picture}"
+                            val imageUrl = "http://192.168.1.4/medque_app/uploads/${patient.profile_picture}"
                             Picasso.get()
                                 .load(imageUrl)
                                 .placeholder(R.drawable.profile_holder)
@@ -224,7 +224,7 @@ class Home : AppCompatActivity() {
         
         // Load doctor image
         if (!appointment.profile_picture.isNullOrEmpty()) {
-            val imageUrl = "http://192.168.1.2/medque_app/uploads/${appointment.profile_picture}"
+            val imageUrl = "http://192.168.1.4/medque_app/uploads/${appointment.profile_picture}"
             Picasso.get()
                 .load(imageUrl)
                 .placeholder(R.drawable.img)

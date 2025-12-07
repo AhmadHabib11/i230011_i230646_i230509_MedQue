@@ -21,7 +21,7 @@ import org.json.JSONObject
 
 class Signin : AppCompatActivity() {
 
-    private val BASE_URL = "http://192.168.1.2/medque_app"
+    private val BASE_URL = "http://192.168.1.4/medque_app"
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var requestQueue: com.android.volley.RequestQueue
     private var userType = "patient"

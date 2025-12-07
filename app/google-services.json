@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "858768153688",
+    "project_id": "medque-e3218",
+    "storage_bucket": "medque-e3218.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858768153688:android:7b880a759b170835a9be2d",
+        "android_client_info": {
+          "package_name": "com.codeclinic.i230011_i230646_i230509_medque"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgj7_nYOG8PlP56ZdsySKnJ-mFeFoMra8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

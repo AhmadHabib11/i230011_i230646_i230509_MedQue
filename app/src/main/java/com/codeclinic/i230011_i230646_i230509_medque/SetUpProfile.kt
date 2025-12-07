@@ -20,7 +20,7 @@ import java.util.*
 
 class SetUpProfile : AppCompatActivity() {
 
-    private val BASE_URL = "http://192.168.1.2/medque_app"
+    private val BASE_URL = "http://192.168.1.4/medque_app"
     private var userId: Int = -1
     private var selectedDate: String? = null
     private var selectedImageUri: Uri? = null

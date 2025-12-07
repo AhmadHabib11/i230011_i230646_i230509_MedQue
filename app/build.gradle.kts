@@ -54,4 +54,12 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     implementation("com.android.volley:volley:1.2.1")
+    
+    // Firebase BOM (Bill of Materials)
+    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
+
+    implementation("com.google.firebase:firebase-database")
 }
+
+// Apply Google Services plugin at the end
+apply(plugin = "com.google.gms.google-services")

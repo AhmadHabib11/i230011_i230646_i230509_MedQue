@@ -33,7 +33,7 @@ class DoctorAdapter(
 
             // Load doctor image using Picasso
             if (!doctor.profile_picture.isNullOrEmpty()) {
-                val imageUrl = "http://192.168.1.2/medque_app/uploads/${doctor.profile_picture}"
+                val imageUrl = "http://192.168.1.4/medque_app/uploads/${doctor.profile_picture}"
                 Picasso.get()
                     .load(imageUrl)
                     .placeholder(R.drawable.doctor1)
