@@ -192,7 +192,7 @@ class CompletedAppointments : AppCompatActivity() {
         }
 
         navHome.setOnClickListener {
-            startActivity(Intent(this, Home::class.java))
+            startActivity(Intent(this, home::class.java))
         }
 
         navSearch.setOnClickListener {

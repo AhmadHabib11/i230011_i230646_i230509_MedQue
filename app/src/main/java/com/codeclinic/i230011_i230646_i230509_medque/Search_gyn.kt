@@ -19,7 +19,7 @@ class Search_gyn : AppCompatActivity() {
         val back_btn = findViewById<ImageView>(R.id.btnBack)
 
         back_btn.setOnClickListener {
-            val intent = Intent(this, Home::class.java)
+            val intent = Intent(this, home::class.java)
             startActivity(intent)
             finish()
         }
@@ -40,7 +40,7 @@ class Search_gyn : AppCompatActivity() {
         val home_btn = findViewById<ImageView>(R.id.homeIcon)
 
         home_btn.setOnClickListener {
-            val intent = Intent(this, Home::class.java)
+            val intent = Intent(this, home::class.java)
             startActivity(intent)
             finish()
         }

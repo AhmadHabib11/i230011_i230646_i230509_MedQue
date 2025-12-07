@@ -43,7 +43,20 @@ class LogOut : AppCompatActivity() {
 
         val logoutBtn = findViewById<TextView>(R.id.logoutConfirmButton)
         logoutBtn.setOnClickListener {
-            performLogout()
+            // Save hasSeenOnboarding before clearing
+            val hasSeenOnboarding = sharedPreferences.getBoolean("hasSeenOnboarding", false)
+
+            // Clear ALL user data EXCEPT hasSeenOnboarding
+            with(sharedPreferences.edit()) {
+                clear() // Clear everything first
+                // Restore hasSeenOnboarding
+                putBoolean("hasSeenOnboarding", hasSeenOnboarding)
+                apply()
+            }
+
+            val intent = Intent(this, Signin::class.java)
+            startActivity(intent)
+            finish()
         }
 
         // Cancel button click listener
@@ -51,26 +64,6 @@ class LogOut : AppCompatActivity() {
         cancelButton.setOnClickListener {
             finish() // Go back to the previous screen (Profile)
         }
-    }
-
-    private fun performLogout() {
-        // Save hasSeenOnboarding before clearing
-        val hasSeenOnboarding = sharedPreferences.getBoolean("hasSeenOnboarding", false)
-
-        // Clear ALL user data
-        with(sharedPreferences.edit()) {
-            clear() // Clear everything first
-            // Restore hasSeenOnboarding and set isLoggedIn to false
-            putBoolean("hasSeenOnboarding", hasSeenOnboarding)
-            putBoolean("isLoggedIn", false)
-            apply()
-        }
-
-        // Navigate to Signin with flags to clear the entire back stack
-        val intent = Intent(this, Signin::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun loadUserData() {

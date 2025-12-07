@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.codeclinic.i230011_i230646_i230509_medque" />
+                  <option name="mobileSdkAppId" value="1:858768153688:android:7b880a759b170835a9be2d" />
+                  <option name="projectId" value="medque-e3218" />
+                  <option name="projectNumber" value="858768153688" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

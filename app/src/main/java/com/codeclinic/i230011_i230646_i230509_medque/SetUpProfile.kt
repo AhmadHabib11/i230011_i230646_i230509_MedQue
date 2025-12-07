@@ -20,11 +20,7 @@ import java.util.*
 
 class SetUpProfile : AppCompatActivity() {
 
-
     private val BASE_URL = "http://192.168.100.22/medque_app"
-
-
-
     private var userId: Int = -1
     private var selectedDate: String? = null
     private var selectedImageUri: Uri? = null
@@ -201,9 +197,9 @@ class SetUpProfile : AppCompatActivity() {
         }
     }
 
-    // ✅ UPDATED: Use temporary upload endpoint (no DB update yet)
+    // ✅ UPDATED: Use new upload_patient_image.php endpoint
     private fun uploadImageWithVolley(imageUri: Uri, callback: (Boolean, String, String?) -> Unit) {
-        val url = "$BASE_URL/upload_image_temp.php"  // ✅ Changed to temp endpoint
+        val url = "$BASE_URL/upload_patient_image.php"
         Log.d(TAG, "Uploading image to: $url")
 
         val stringRequest = object : StringRequest(

@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.codeclinic.i230011_i230646_i230509_medque.utils.FirebaseRealtimeHelper
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -77,7 +78,7 @@ class Upload_reports : AppCompatActivity() {
     private fun setupClickListeners() {
         val backbtn = findViewById<ImageView>(R.id.btn_back)
         backbtn.setOnClickListener {
-            val intent = Intent(this, Home::class.java)
+            val intent = Intent(this, home::class.java)
             startActivity(intent)
             finish()
         }
@@ -179,46 +180,64 @@ class Upload_reports : AppCompatActivity() {
             val fileBytes = byteArrayOutputStream.toByteArray()
             val fileBase64 = android.util.Base64.encodeToString(fileBytes, android.util.Base64.DEFAULT)
             
-            // Upload to server
-            val url = "http://192.168.100.22/medque_app/upload_report.php" // Use 192.168.100.22 for emulator
-            
-            val request = object : StringRequest(
-                Request.Method.POST, url,
-                { response ->
-                    try {
-                        val jsonResponse = JSONObject(response)
-                        if (jsonResponse.getBoolean("success")) {
-                            Toast.makeText(this, "Report uploaded successfully!", Toast.LENGTH_LONG).show()
-                            // Clear the file and go back
-                            removeSelectedFile()
-                            val intent = Intent(this, Home::class.java)
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            Toast.makeText(this, jsonResponse.getString("message"), Toast.LENGTH_LONG).show()
-                        }
-                    } catch (e: Exception) {
-                        Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
-                },
-                { error ->
-                    Toast.makeText(this, "Upload failed: ${error.message}", Toast.LENGTH_LONG).show()
-                }
-            ) {
-                override fun getParams(): MutableMap<String, String> {
-                    val params = HashMap<String, String>()
-                    params["user_id"] = userId.toString()
-                    params["file_name"] = selectedFileName
-                    params["file_data"] = fileBase64
-                    return params
+            // First save to Firebase Realtime Database
+            val firebaseHelper = FirebaseRealtimeHelper()
+            firebaseHelper.saveReportBase64(
+                this,
+                selectedFileUri!!,
+                userId,
+                "Medical Report",
+                selectedFileName
+            ) { success: Boolean, reportId: String?, message: String, base64String: String? ->
+                if (success && base64String != null) {
+                    // Then upload to MySQL via PHP
+                    uploadToMySQL(userId, selectedFileName, base64String)
+                } else {
+                    Toast.makeText(this, "Firebase save failed: $message", Toast.LENGTH_LONG).show()
                 }
             }
-            
-            Volley.newRequestQueue(this).add(request)
             
         } catch (e: Exception) {
             Toast.makeText(this, "Error reading file: ${e.message}", Toast.LENGTH_SHORT).show()
         }
+    }
+    
+    private fun uploadToMySQL(userId: Int, fileName: String, fileBase64: String) {
+        val url = "http://192.168.100.22/medque_app/upload_report.php"
+        
+        val request = object : StringRequest(
+            Request.Method.POST, url,
+            { response ->
+                try {
+                    val jsonResponse = JSONObject(response)
+                    if (jsonResponse.getBoolean("success")) {
+                        Toast.makeText(this, "Report uploaded successfully to both Firebase and MySQL!", Toast.LENGTH_LONG).show()
+                        // Clear the file and go back
+                        removeSelectedFile()
+                        val intent = Intent(this, home::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this, jsonResponse.getString("message"), Toast.LENGTH_LONG).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            },
+            { error ->
+                Toast.makeText(this, "MySQL upload failed: ${error.message}", Toast.LENGTH_LONG).show()
+            }
+        ) {
+            override fun getParams(): MutableMap<String, String> {
+                val params = HashMap<String, String>()
+                params["user_id"] = userId.toString()
+                params["file_name"] = fileName
+                params["file_data"] = fileBase64
+                return params
+            }
+        }
+        
+        Volley.newRequestQueue(this).add(request)
     }
     
     private fun formatFileSize(size: Long): String {

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -16,16 +17,29 @@ import androidx.lifecycle.lifecycleScope
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.codeclinic.i230011_i230646_i230509_medque.api.RetrofitClient
+import com.codeclinic.i230011_i230646_i230509_medque.models.ApiResponse
+import com.codeclinic.i230011_i230646_i230509_medque.models.AppointmentsData
+import com.codeclinic.i230011_i230646_i230509_medque.models.AppointmentWithDoctor
+import com.codeclinic.i230011_i230646_i230509_medque.models.PatientProfileData
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Home : AppCompatActivity() {
+class home : AppCompatActivity() {
+
+    // Configuration - Toggle between implementations
+    private val USE_RETROFIT = false // Set to false to use Volley implementation
 
     private val BASE_URL = "http://192.168.100.22/medque_app"
+    private val RETROFIT_BASE_URL = "http://192.168.100.22/medque_app/uploads/"
+
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var requestQueue: com.android.volley.RequestQueue
     private lateinit var appointmentRepository: AppointmentRepository
@@ -49,8 +63,11 @@ class Home : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         sharedPreferences = getSharedPreferences("MedQuePrefs", MODE_PRIVATE)
-        requestQueue = Volley.newRequestQueue(this)
-        appointmentRepository = AppointmentRepository(this)
+
+        if (!USE_RETROFIT) {
+            requestQueue = Volley.newRequestQueue(this)
+            appointmentRepository = AppointmentRepository(this)
+        }
 
         // Check if user is logged in
         checkLoginStatus()
@@ -125,7 +142,68 @@ class Home : AppCompatActivity() {
         }
     }
 
+    // ========== USER PROFILE LOADING ==========
+
     private fun loadUserProfile() {
+        if (USE_RETROFIT) {
+            loadUserProfileRetrofit()
+        } else {
+            loadUserProfileVolley()
+        }
+    }
+
+    // Retrofit Implementation
+    private fun loadUserProfileRetrofit() {
+        // Get user ID from SharedPreferences
+        val userId = sharedPreferences.getInt("userId", 1)
+
+        // Fetch patient profile from API
+        RetrofitClient.apiService.getPatientProfile(userId).enqueue(object : Callback<ApiResponse<PatientProfileData>> {
+            override fun onResponse(
+                call: Call<ApiResponse<PatientProfileData>>,
+                response: Response<ApiResponse<PatientProfileData>>
+            ) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    val patient = response.body()?.data?.patient
+                    if (patient != null) {
+                        // Display patient name
+                        userName.text = patient.name ?: patient.nickname ?: "User"
+
+                        // Display joined year
+                        joinedYear.text = "Joined ${patient.joined_year}"
+
+                        // Load profile picture if available
+                        if (!patient.profile_picture.isNullOrEmpty()) {
+                            val imageUrl = "$RETROFIT_BASE_URL${patient.profile_picture}"
+                            Picasso.get()
+                                .load(imageUrl)
+                                .placeholder(R.drawable.profile_holder)
+                                .error(R.drawable.profile_holder)
+                                .into(profileImage)
+                        }
+
+                        // Save to SharedPreferences for future use
+                        with(sharedPreferences.edit()) {
+                            putString("userName", patient.name ?: patient.nickname)
+                            putString("joinedYear", "Joined ${patient.joined_year}")
+                            apply()
+                        }
+                    }
+                } else {
+                    // Fallback to SharedPreferences if API fails
+                    loadUserProfileFromPrefs()
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse<PatientProfileData>>, t: Throwable) {
+                // Fallback to SharedPreferences if API fails
+                loadUserProfileFromPrefs()
+            }
+        })
+    }
+
+    // Volley Implementation with Offline Support
+    private fun loadUserProfileVolley() {
         // First try to load from SharedPreferences (for offline)
         val savedName = sharedPreferences.getString("name", null)
         val savedProfilePic = sharedPreferences.getString("profile_picture", null)
@@ -221,6 +299,15 @@ class Home : AppCompatActivity() {
         requestQueue.add(jsonObjectRequest)
     }
 
+    private fun loadUserProfileFromPrefs() {
+        // Get user data from SharedPreferences
+        val name = sharedPreferences.getString("userName", "User")
+        val joinedYearText = sharedPreferences.getString("joinedYear", "Joined 2024")
+
+        userName.text = name
+        joinedYear.text = joinedYearText
+    }
+
     private fun extractYear(dateString: String): String {
         return try {
             // Try parsing as full datetime first (YYYY-MM-DD HH:MM:SS)
@@ -244,7 +331,47 @@ class Home : AppCompatActivity() {
         }
     }
 
+    // ========== APPOINTMENTS LOADING ==========
+
     private fun loadAppointments() {
+        if (USE_RETROFIT) {
+            loadAppointmentsRetrofit()
+        } else {
+            loadAppointmentsVolley()
+        }
+    }
+
+    // Retrofit Implementation
+    private fun loadAppointmentsRetrofit() {
+        // Get patient ID from SharedPreferences
+        patientId = sharedPreferences.getInt("userId", 1)
+
+        RetrofitClient.apiService.getAppointments(patientId).enqueue(object : Callback<ApiResponse<AppointmentsData>> {
+            override fun onResponse(
+                call: Call<ApiResponse<AppointmentsData>>,
+                response: Response<ApiResponse<AppointmentsData>>
+            ) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    val appointmentsData = response.body()?.data
+                    if (appointmentsData != null && appointmentsData.appointments.isNotEmpty()) {
+                        displayAppointmentRetrofit(appointmentsData.appointments[0])
+                    } else {
+                        showNoAppointments()
+                    }
+                } else {
+                    showNoAppointments()
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse<AppointmentsData>>, t: Throwable) {
+                showNoAppointments()
+                Toast.makeText(this@home, "Error loading appointments", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    // Volley Implementation with Room Database
+    private fun loadAppointmentsVolley() {
         val userId = sharedPreferences.getInt("user_id", -1)
 
         if (userId == -1) {
@@ -252,7 +379,7 @@ class Home : AppCompatActivity() {
             return
         }
 
-        // 🔥 FIRST: Load from local database (OFFLINE SUPPORT)
+        // FIRST: Load from local database (OFFLINE SUPPORT)
         lifecycleScope.launch {
             try {
                 val localAppointment = appointmentRepository.getFirstUpcomingAppointment(userId)
@@ -269,7 +396,7 @@ class Home : AppCompatActivity() {
             }
         }
 
-        // 🔥 SECOND: Fetch fresh data from API and sync to database
+        // SECOND: Fetch fresh data from API and sync to database
         val url = "$BASE_URL/get_upcoming_appointments.php"
         val jsonObject = JSONObject().apply {
             put("user_id", userId)
@@ -320,7 +447,44 @@ class Home : AppCompatActivity() {
         requestQueue.add(jsonObjectRequest)
     }
 
-    // 🔥 NEW: Display appointment from Room database entity
+    // ========== DISPLAY APPOINTMENTS ==========
+
+    // Display from Retrofit response
+    private fun displayAppointmentRetrofit(appointment: AppointmentWithDoctor) {
+        appointmentCard.visibility = View.VISIBLE
+        noAppointmentsText.visibility = View.GONE
+
+        // Format date and time
+        val dateTimeText = formatAppointmentDateTime(appointment.appointment_date, appointment.appointment_time)
+        appointmentTime.text = dateTimeText
+
+        // Set doctor name and specialization
+        doctorName.text = "Checkup with ${appointment.doctor_name}"
+        clinicName.text = appointment.specialization
+
+        // Hide queue button for now
+        queueBtn.visibility = View.GONE
+
+        // Load doctor image
+        if (!appointment.profile_picture.isNullOrEmpty()) {
+            val imageUrl = "$RETROFIT_BASE_URL${appointment.profile_picture}"
+            Picasso.get()
+                .load(imageUrl)
+                .placeholder(R.drawable.img)
+                .error(R.drawable.img)
+                .into(clinicImage)
+        } else {
+            clinicImage.setImageResource(R.drawable.img)
+        }
+
+        // Set click listener
+        appointmentCard.setOnClickListener {
+            val intent = Intent(this, UpcomingAppointments::class.java)
+            startActivity(intent)
+        }
+    }
+
+    // Display from Room database entity
     private fun displayAppointmentFromEntity(appointment: AppointmentEntity) {
         appointmentCard.visibility = View.VISIBLE
         noAppointmentsText.visibility = View.GONE
@@ -336,7 +500,7 @@ class Home : AppCompatActivity() {
         doctorName.text = "Checkup with Dr. ${appointment.doctor_name}"
         clinicName.text = appointment.specialization
 
-        // Hide queue button for now
+        // Hide queue button
         queueBtn.visibility = View.GONE
 
         // Load doctor image
@@ -351,47 +515,7 @@ class Home : AppCompatActivity() {
             clinicImage.setImageResource(R.drawable.img)
         }
 
-        // Set click listener to view appointment details
-        appointmentCard.setOnClickListener {
-            val intent = Intent(this, UpcomingAppointments::class.java)
-            startActivity(intent)
-        }
-    }
-
-    private fun displayAppointment(appointment: JSONObject) {
-        appointmentCard.visibility = View.VISIBLE
-        noAppointmentsText.visibility = View.GONE
-
-        val appointmentDate = appointment.getString("appointment_date")
-        val appointmentTimeStr = appointment.getString("appointment_time")
-        val doctorNameStr = appointment.getString("doctor_name")
-        val specialization = appointment.getString("specialization")
-        val profilePicture = appointment.optString("profile_picture", "")
-
-        // Format date and time
-        val dateTimeText = formatAppointmentDateTime(appointmentDate, appointmentTimeStr)
-        appointmentTime.text = dateTimeText
-
-        // Set doctor name and specialization
-        doctorName.text = "Checkup with Dr. $doctorNameStr"
-        clinicName.text = specialization
-
-        // Hide queue button for now
-        queueBtn.visibility = View.GONE
-
-        // Load doctor image
-        if (profilePicture.isNotEmpty() && profilePicture != "null") {
-            val imageUrl = "$BASE_URL/uploads/$profilePicture"
-            Picasso.get()
-                .load(imageUrl)
-                .placeholder(R.drawable.img)
-                .error(R.drawable.img)
-                .into(clinicImage)
-        } else {
-            clinicImage.setImageResource(R.drawable.img)
-        }
-
-        // Set click listener to view appointment details
+        // Set click listener
         appointmentCard.setOnClickListener {
             val intent = Intent(this, UpcomingAppointments::class.java)
             startActivity(intent)
@@ -402,6 +526,8 @@ class Home : AppCompatActivity() {
         appointmentCard.visibility = View.GONE
         noAppointmentsText.visibility = View.VISIBLE
     }
+
+    // ========== UTILITY FUNCTIONS ==========
 
     private fun formatAppointmentDateTime(dateString: String, timeString: String): String {
         return try {
