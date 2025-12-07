@@ -22,6 +22,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.codeclinic.i230011_i230646_i230509_medque.utils.FirebaseRealtimeHelper
 import com.squareup.picasso.Picasso
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
@@ -60,17 +61,35 @@ class EditProfile : AppCompatActivity() {
                 .error(R.drawable.dp_circle)
                 .into(profileImageView)
 
-            // Upload new image with Volley
-            uploadImageWithVolley(it) { success, message, imagePath ->
-                if (success && imagePath != null) {
-                    // Save image path to SharedPreferences
-                    with(sharedPreferences.edit()) {
-                        putString("profile_picture", imagePath)
-                        apply()
+            // Get user info
+            val userId = sharedPreferences.getInt("user_id", -1)
+            val userRole = sharedPreferences.getString("role", "")
+            val isDoctor = userRole == "doctor"
+
+            // Save to Firebase Realtime Database first
+            val firebaseHelper = FirebaseRealtimeHelper()
+            firebaseHelper.saveProfileImageBase64(
+                this@EditProfile,
+                it,
+                userId,
+                isDoctor
+            ) { success: Boolean, message: String, base64String: String? ->
+                if (success && base64String != null) {
+                    // Then upload to MySQL via PHP with Base64
+                    uploadImageToMySQL(userId, base64String) { mysqlSuccess, mysqlMessage, imagePath ->
+                        if (mysqlSuccess && imagePath != null) {
+                            // Save image path to SharedPreferences
+                            with(sharedPreferences.edit()) {
+                                putString("profile_picture", imagePath)
+                                apply()
+                            }
+                            Toast.makeText(this@EditProfile, "Profile picture updated in both Firebase and MySQL", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this@EditProfile, "MySQL upload failed: $mysqlMessage", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                    Toast.makeText(this@EditProfile, "Profile picture updated", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this@EditProfile, "Failed to update profile picture: $message", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@EditProfile, "Firebase save failed: $message", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -244,7 +263,6 @@ class EditProfile : AppCompatActivity() {
     private fun updateProfileWithVolley() {
         val name = etFullName.text.toString().trim()
         val nickname = etNickname.text.toString().trim()
-        val email = etEmail.text.toString().trim()  // ✅ ADD THIS LINE
         val gender = tvGender.text.toString()
         val userId = sharedPreferences.getInt("user_id", -1)
 
@@ -258,11 +276,6 @@ class EditProfile : AppCompatActivity() {
             return
         }
 
-        if (email.isEmpty()) {  // ✅ ADD THIS VALIDATION
-            Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         val savebtn = findViewById<TextView>(R.id.btnSave)
         savebtn.isEnabled = false
         savebtn.text = "Saving..."
@@ -272,7 +285,6 @@ class EditProfile : AppCompatActivity() {
             put("user_id", userId)
             put("name", name)
             put("nickname", nickname)
-            put("email", email)  // ✅ ADD THIS LINE
             if (selectedDate != null) put("dob", selectedDate)
             put("gender", gender)
             val profilePicture = sharedPreferences.getString("profile_picture", null)
@@ -293,7 +305,6 @@ class EditProfile : AppCompatActivity() {
                     with(sharedPreferences.edit()) {
                         putString("name", name)
                         putString("nickname", nickname)
-                        putString("email", email)  // ✅ ADD THIS LINE
                         if (selectedDate != null) putString("dob", selectedDate)
                         putString("gender", gender)
                         apply()
@@ -319,16 +330,8 @@ class EditProfile : AppCompatActivity() {
         requestQueue.add(jsonObjectRequest)
     }
 
-    private fun uploadImageWithVolley(imageUri: Uri, callback: (Boolean, String, String?) -> Unit) {
+    private fun uploadImageToMySQL(userId: Int, base64Image: String, callback: (Boolean, String, String?) -> Unit) {
         val url = "$BASE_URL/upload_image.php"
-        val userId = sharedPreferences.getInt("user_id", -1)
-
-        if (userId == -1) {
-            callback(false, "User not logged in", null)
-            return
-        }
-
-        val boundary = "Boundary-${System.currentTimeMillis()}"
 
         val stringRequest = object : StringRequest(
             Request.Method.POST, url,
@@ -353,41 +356,11 @@ class EditProfile : AppCompatActivity() {
                 callback(false, errorMessage, null)
             }
         ) {
-            override fun getBodyContentType(): String {
-                return "multipart/form-data; boundary=$boundary"
-            }
-
-            override fun getBody(): ByteArray {
-                val outputStream = ByteArrayOutputStream()
-
-                try {
-                    // Add user_id parameter
-                    outputStream.write("--$boundary\r\n".toByteArray())
-                    outputStream.write("Content-Disposition: form-data; name=\"user_id\"\r\n\r\n".toByteArray())
-                    outputStream.write("$userId\r\n".toByteArray())
-
-                    // Add image file
-                    val fileName = "profile_${userId}_${System.currentTimeMillis()}.jpg"
-                    outputStream.write("--$boundary\r\n".toByteArray())
-                    outputStream.write("Content-Disposition: form-data; name=\"image\"; filename=\"$fileName\"\r\n".toByteArray())
-                    outputStream.write("Content-Type: image/jpeg\r\n\r\n".toByteArray())
-
-                    val inputStream = contentResolver.openInputStream(imageUri)
-                    inputStream?.use { input ->
-                        val buffer = ByteArray(4096)
-                        var bytesRead: Int
-                        while (input.read(buffer).also { bytesRead = it } != -1) {
-                            outputStream.write(buffer, 0, bytesRead)
-                        }
-                    }
-
-                    outputStream.write("\r\n".toByteArray())
-                    outputStream.write("--$boundary--\r\n".toByteArray())
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-
-                return outputStream.toByteArray()
+            override fun getParams(): MutableMap<String, String> {
+                val params = HashMap<String, String>()
+                params["user_id"] = userId.toString()
+                params["image_base64"] = base64Image
+                return params
             }
         }
 

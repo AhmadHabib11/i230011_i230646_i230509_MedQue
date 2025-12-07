@@ -38,7 +38,7 @@ class Appointment_done : AppCompatActivity() {
         
         val done = findViewById<TextView>(R.id.btn_done)
         done.setOnClickListener {
-            val intent = Intent(this, Home::class.java)
+            val intent = Intent(this, home::class.java)
             startActivity(intent)
             finish()
         }

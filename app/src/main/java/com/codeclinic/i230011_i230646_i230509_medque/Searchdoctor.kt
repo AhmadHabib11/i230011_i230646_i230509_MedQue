@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -33,6 +34,7 @@ class Searchdoctor : AppCompatActivity() {
     private lateinit var emptyStateText: TextView
     private lateinit var resultsCountText: TextView
     private lateinit var doctorAdapter: DoctorAdapter
+    private lateinit var specialtyButtonsContainer: LinearLayout
     private var allDoctors: List<Doctor> = emptyList()
     private var currentSpecialization: String? = null
     private var searchQuery: String = ""
@@ -53,6 +55,7 @@ class Searchdoctor : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         emptyStateText = findViewById(R.id.emptyStateText)
         resultsCountText = findViewById(R.id.resultsCountText)
+        specialtyButtonsContainer = findViewById(R.id.specialtyButtonsContainer)
         
         // Setup RecyclerView
         setupRecyclerView()
@@ -102,14 +105,14 @@ class Searchdoctor : AppCompatActivity() {
     private fun setupNavigationButtons() {
         val back_btn = findViewById<ImageView>(R.id.btnBack)
         back_btn.setOnClickListener {
-            val intent = Intent(this, Home::class.java)
+            val intent = Intent(this, home::class.java)
             startActivity(intent)
             finish()
         }
         
         val home_btn = findViewById<ImageView>(R.id.homebt)
         home_btn.setOnClickListener {
-            val intent = Intent(this, Home::class.java)
+            val intent = Intent(this, home::class.java)
             startActivity(intent)
             finish()
         }
@@ -130,45 +133,67 @@ class Searchdoctor : AppCompatActivity() {
     }
     
     private fun setupSpecialtyFilters() {
-        val allBtn = findViewById<TextView>(R.id.btnAll)
-        val gynBtn = findViewById<TextView>(R.id.btnGynecologist)
-        val cardBtn = findViewById<TextView>(R.id.btnCardiologist)
-        val dermBtn = findViewById<TextView>(R.id.btnDermatologist)
+        // This will be called after doctors are loaded
+        // Initial setup is empty, buttons will be created dynamically
+    }
+    
+    private fun createDynamicSpecialtyButtons() {
+        specialtyButtonsContainer.removeAllViews()
         
-        allBtn.setOnClickListener {
-            currentSpecialization = null
-            filterDoctors()
-            updateFilterButtonStyles(allBtn)
-        }
+        // Get unique specializations from all doctors
+        val specializations = allDoctors.map { it.specialization }.distinct().sorted()
         
-        gynBtn.setOnClickListener {
-            currentSpecialization = "Gynecologist"
-            filterDoctors()
-            updateFilterButtonStyles(gynBtn)
-        }
+        // Create "All" button
+        val allBtn = createSpecialtyButton("All", null, true)
+        specialtyButtonsContainer.addView(allBtn)
         
-        cardBtn.setOnClickListener {
-            currentSpecialization = "Cardiologist"
-            filterDoctors()
-            updateFilterButtonStyles(cardBtn)
-        }
-        
-        dermBtn.setOnClickListener {
-            currentSpecialization = "Dermatologist"
-            filterDoctors()
-            updateFilterButtonStyles(dermBtn)
+        // Create buttons for each specialization found in database
+        specializations.forEach { specialization ->
+            val button = createSpecialtyButton(specialization, specialization, false)
+            specialtyButtonsContainer.addView(button)
         }
     }
     
-    private fun updateFilterButtonStyles(selectedButton: TextView) {
-        val allBtn = findViewById<TextView>(R.id.btnAll)
-        val gynBtn = findViewById<TextView>(R.id.btnGynecologist)
-        val cardBtn = findViewById<TextView>(R.id.btnCardiologist)
-        val dermBtn = findViewById<TextView>(R.id.btnDermatologist)
+    private fun createSpecialtyButton(text: String, specialty: String?, isSelected: Boolean): TextView {
+        val button = TextView(this)
+        val layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
         
-        val buttons = listOf(allBtn, gynBtn, cardBtn, dermBtn)
+        // Add margin for buttons after the first one
+        if (specialtyButtonsContainer.childCount > 0) {
+            layoutParams.setMargins(dpToPx(12), 0, 0, 0)
+        }
         
-        buttons.forEach { button ->
+        button.layoutParams = layoutParams
+        button.text = text
+        button.setPadding(dpToPx(28), dpToPx(12), dpToPx(28), dpToPx(12))
+        button.textSize = 16f
+        button.setTypeface(null, android.graphics.Typeface.BOLD)
+        
+        // Set initial style
+        if (isSelected) {
+            button.setBackgroundResource(R.drawable.selected)
+            button.setTextColor(getColor(R.color.white))
+        } else {
+            button.setBackgroundResource(R.drawable.unselected)
+            button.setTextColor(getColor(R.color.primary_green))
+        }
+        
+        // Set click listener
+        button.setOnClickListener {
+            currentSpecialization = specialty
+            filterDoctors()
+            updateDynamicButtonStyles(button)
+        }
+        
+        return button
+    }
+    
+    private fun updateDynamicButtonStyles(selectedButton: TextView) {
+        for (i in 0 until specialtyButtonsContainer.childCount) {
+            val button = specialtyButtonsContainer.getChildAt(i) as TextView
             if (button == selectedButton) {
                 button.setBackgroundResource(R.drawable.selected)
                 button.setTextColor(getColor(R.color.white))
@@ -177,6 +202,10 @@ class Searchdoctor : AppCompatActivity() {
                 button.setTextColor(getColor(R.color.primary_green))
             }
         }
+    }
+    
+    private fun dpToPx(dp: Int): Int {
+        return (dp * resources.displayMetrics.density).toInt()
     }
     
     private fun loadDoctors() {
@@ -195,6 +224,7 @@ class Searchdoctor : AppCompatActivity() {
                     val doctorsData = response.body()?.data
                     if (doctorsData != null && doctorsData.doctors.isNotEmpty()) {
                         allDoctors = doctorsData.doctors
+                        createDynamicSpecialtyButtons()
                         filterDoctors()
                         doctorsRecyclerView.visibility = View.VISIBLE
                     } else {

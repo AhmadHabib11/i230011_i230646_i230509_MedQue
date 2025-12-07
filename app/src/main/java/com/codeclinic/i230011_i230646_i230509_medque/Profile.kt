@@ -45,7 +45,7 @@ class Profile : AppCompatActivity() {
 
         val navHome = findViewById<LinearLayout>(R.id.navHome)
         navHome.setOnClickListener {
-            val intent = Intent(this, Home::class.java)
+            val intent = Intent(this, home::class.java)
             startActivity(intent)
         }
         val searchDoctor = findViewById<LinearLayout>(R.id.navSearch)

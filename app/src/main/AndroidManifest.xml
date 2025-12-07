@@ -75,7 +75,7 @@
             android:name=".Notifications"
             android:exported="false" />
         <activity
-            android:name=".Home"
+            android:name=".home"
             android:exported="false" />
         <activity
             android:name=".CompletedAppointments"

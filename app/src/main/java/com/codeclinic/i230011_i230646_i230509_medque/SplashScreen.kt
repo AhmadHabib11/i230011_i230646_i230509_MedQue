@@ -94,7 +94,7 @@ class SplashScreen : AppCompatActivity() {
                     if ((patientName?.isNotEmpty() == true) || patientHasProfile) {
                         // Patient with completed profile - go to Home
                         Log.d(TAG, "Patient has completed profile, going to Home")
-                        val intent = Intent(this, Home::class.java)
+                        val intent = Intent(this, home::class.java)
                         startActivity(intent)
                     } else {
                         // Patient without profile - go to profile setup
