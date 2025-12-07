@@ -150,7 +150,7 @@ class Doctor_detail : AppCompatActivity() {
         
         // Load doctor image
         if (!doctor.profile_picture.isNullOrEmpty()) {
-            val imageUrl = "http://192.168.18.37/medque_app/uploads/${doctor.profile_picture}"
+            val imageUrl = "http://192.168.100.22/medque_app/uploads/${doctor.profile_picture}"
             Picasso.get()
                 .load(imageUrl)
                 .placeholder(R.drawable.doctor1)

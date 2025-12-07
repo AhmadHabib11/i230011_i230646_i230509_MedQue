@@ -86,6 +86,6 @@ class LogOut : AppCompatActivity() {
     }
 
     companion object {
-        private const val BASE_URL = "http://192.168.18.37/medque_app"
+        private const val BASE_URL = "http://192.168.100.22/medque_app"
     }
 }

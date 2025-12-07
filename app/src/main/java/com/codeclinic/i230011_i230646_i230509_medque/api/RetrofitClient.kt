@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 object RetrofitClient {
     
 
-    private const val BASE_URL = "http://192.168.18.37/medque_app/"  // For Android Emulator
+    private const val BASE_URL = "http://192.168.100.22/medque_app/"  // For Android Emulator
 
     
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
