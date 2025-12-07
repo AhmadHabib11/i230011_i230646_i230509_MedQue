@@ -13,10 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.codeclinic.i230011_i230646_i230509_medque.api.RetrofitClient
 import com.codeclinic.i230011_i230646_i230509_medque.models.ApiResponse
 import com.codeclinic.i230011_i230646_i230509_medque.models.AppointmentData
 import com.codeclinic.i230011_i230646_i230509_medque.models.BookAppointmentRequest
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +33,7 @@ class Book_appointment : AppCompatActivity() {
     private lateinit var btnPrevMonth: ImageView
     private lateinit var btnNextMonth: ImageView
     private lateinit var btnConfirm: TextView
+    private lateinit var appointmentRepository: AppointmentRepository
 
     private var calendar = Calendar.getInstance()
     private var selectedDate: String? = null
@@ -39,7 +42,10 @@ class Book_appointment : AppCompatActivity() {
     private var selectedTimeView: TextView? = null
 
     private var doctorId: Int = 0
-    private var userId: Int = 0 // ✅ Changed from patientId to userId
+    private var userId: Int = 0
+    private var doctorName: String = ""
+    private var specialization: String = ""
+    private var profilePicture: String = ""
 
     private val timeSlots = listOf(
         "09:00:00", "09:30:00", "10:00:00", "10:30:00", "11:00:00", "11:30:00",
@@ -51,10 +57,16 @@ class Book_appointment : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_book_appointment)
 
-        // Get doctor ID from intent
-        doctorId = intent.getIntExtra("doctor_id", 0)
+        // Initialize repository
+        appointmentRepository = AppointmentRepository(this)
 
-        // ✅ Get user ID from SharedPreferences
+        // Get doctor info from intent
+        doctorId = intent.getIntExtra("doctor_id", 0)
+        doctorName = intent.getStringExtra("doctor_name") ?: ""
+        specialization = intent.getStringExtra("specialization") ?: ""
+        profilePicture = intent.getStringExtra("profile_picture") ?: ""
+
+        // Get user ID from SharedPreferences
         val sharedPreferences = getSharedPreferences("MedQuePrefs", MODE_PRIVATE)
         userId = sharedPreferences.getInt("user_id", 0)
 
@@ -109,23 +121,18 @@ class Book_appointment : AppCompatActivity() {
     }
 
     private fun updateCalendar() {
-        // Update month/year display
         val monthFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         tvMonthYear.text = monthFormat.format(calendar.time)
 
-        // Clear existing calendar
         calendarGrid.removeAllViews()
 
-        // Get first day of month
         val tempCal = calendar.clone() as Calendar
         tempCal.set(Calendar.DAY_OF_MONTH, 1)
         val firstDayOfWeek = tempCal.get(Calendar.DAY_OF_WEEK) - 1
         val daysInMonth = tempCal.getActualMaximum(Calendar.DAY_OF_MONTH)
 
-        // Get today's date
         val today = Calendar.getInstance()
 
-        // Add empty cells before first day
         for (i in 0 until firstDayOfWeek) {
             val emptyView = TextView(this)
             emptyView.layoutParams = GridLayout.LayoutParams().apply {
@@ -137,7 +144,6 @@ class Book_appointment : AppCompatActivity() {
             calendarGrid.addView(emptyView)
         }
 
-        // Add days
         for (day in 1..daysInMonth) {
             val dateView = TextView(this)
             dateView.text = day.toString()
@@ -152,7 +158,6 @@ class Book_appointment : AppCompatActivity() {
             }
             dateView.layoutParams = dateParams
 
-            // Check if this date is in the past
             val dateCal = calendar.clone() as Calendar
             dateCal.set(Calendar.DAY_OF_MONTH, day)
             dateCal.set(Calendar.HOUR_OF_DAY, 0)
@@ -166,11 +171,9 @@ class Book_appointment : AppCompatActivity() {
             today.set(Calendar.MILLISECOND, 0)
 
             if (dateCal.before(today)) {
-                // Past date - gray out
                 dateView.setTextColor(Color.GRAY)
                 dateView.isEnabled = false
             } else {
-                // Future date - selectable
                 dateView.setTextColor(Color.BLACK)
                 dateView.setBackgroundResource(R.drawable.unselected)
 
@@ -184,16 +187,13 @@ class Book_appointment : AppCompatActivity() {
     }
 
     private fun selectDate(dateView: TextView, day: Int) {
-        // Deselect previous date
         selectedDateView?.setBackgroundResource(R.drawable.unselected)
         selectedDateView?.setTextColor(Color.BLACK)
 
-        // Select new date
         dateView.setBackgroundResource(R.drawable.selected)
         dateView.setTextColor(Color.WHITE)
         selectedDateView = dateView
 
-        // Format selected date as YYYY-MM-DD
         val selectedCal = calendar.clone() as Calendar
         selectedCal.set(Calendar.DAY_OF_MONTH, day)
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -233,11 +233,9 @@ class Book_appointment : AppCompatActivity() {
     }
 
     private fun selectTime(timeView: TextView, time: String) {
-        // Deselect previous time
         selectedTimeView?.setBackgroundResource(R.drawable.unselected)
         selectedTimeView?.setTextColor(ContextCompat.getColor(this, R.color.primary_green))
 
-        // Select new time
         timeView.setBackgroundResource(R.drawable.selected)
         timeView.setTextColor(Color.WHITE)
         selectedTimeView = timeView
@@ -266,15 +264,15 @@ class Book_appointment : AppCompatActivity() {
     private fun bookAppointment() {
         btnConfirm.isEnabled = false
 
-        // ✅ Use user_id instead of patient_id
         val request = BookAppointmentRequest(
-            patient_id = userId, // This is actually user_id
+            patient_id = userId,
             doctor_id = doctorId,
             appointment_date = selectedDate!!,
             appointment_time = selectedTime!!,
             notes = ""
         )
 
+        // 🔥 Use Retrofit directly (not through repository)
         RetrofitClient.apiService.bookAppointment(request).enqueue(object : Callback<ApiResponse<AppointmentData>> {
             override fun onResponse(
                 call: Call<ApiResponse<AppointmentData>>,
@@ -283,9 +281,38 @@ class Book_appointment : AppCompatActivity() {
                 btnConfirm.isEnabled = true
 
                 if (response.isSuccessful && response.body()?.success == true) {
+                    val appointmentData = response.body()?.data
+
+                    // 🔥 Save to local database for offline access
+                    if (appointmentData != null) {
+                        lifecycleScope.launch {
+                            val currentTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                                .format(Date())
+
+                            val localAppointment = AppointmentEntity(
+                                appointment_id = appointmentData.appointment_id,
+                                patient_id = userId,
+                                doctor_id = doctorId,
+                                doctor_name = doctorName,
+                                specialization = specialization,
+                                profile_picture = profilePicture,
+                                appointment_date = selectedDate!!,
+                                appointment_time = selectedTime!!,
+                                status = "scheduled",
+                                notes = "",
+                                created_at = currentTime,
+                                synced = true
+                            )
+
+                            appointmentRepository.saveAppointmentLocally(localAppointment)
+                            android.util.Log.d("BookAppointment", "✅ Appointment saved to local database")
+                        }
+                    }
+
                     Toast.makeText(this@Book_appointment, "Appointment booked successfully!", Toast.LENGTH_SHORT).show()
+
                     val intent = Intent(this@Book_appointment, Appointment_done::class.java)
-                    intent.putExtra("doctor_name", intent.getStringExtra("doctor_name"))
+                    intent.putExtra("doctor_name", doctorName)
                     intent.putExtra("appointment_date", selectedDate)
                     intent.putExtra("appointment_time", selectedTime)
                     startActivity(intent)
@@ -299,6 +326,7 @@ class Book_appointment : AppCompatActivity() {
             override fun onFailure(call: Call<ApiResponse<AppointmentData>>, t: Throwable) {
                 btnConfirm.isEnabled = true
                 Toast.makeText(this@Book_appointment, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                android.util.Log.e("BookAppointment", "Error booking: ${t.message}")
             }
         })
     }

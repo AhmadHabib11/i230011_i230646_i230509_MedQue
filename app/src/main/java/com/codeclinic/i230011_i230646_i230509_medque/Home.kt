@@ -12,11 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,6 +28,8 @@ class Home : AppCompatActivity() {
     private val BASE_URL = "http://192.168.100.22/medque_app"
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var requestQueue: com.android.volley.RequestQueue
+    private lateinit var appointmentRepository: AppointmentRepository
+
     private lateinit var userName: TextView
     private lateinit var joinedYear: TextView
     private lateinit var profileImage: CircleImageView
@@ -46,6 +50,7 @@ class Home : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("MedQuePrefs", MODE_PRIVATE)
         requestQueue = Volley.newRequestQueue(this)
+        appointmentRepository = AppointmentRepository(this)
 
         // Check if user is logged in
         checkLoginStatus()
@@ -247,12 +252,30 @@ class Home : AppCompatActivity() {
             return
         }
 
+        // 🔥 FIRST: Load from local database (OFFLINE SUPPORT)
+        lifecycleScope.launch {
+            try {
+                val localAppointment = appointmentRepository.getFirstUpcomingAppointment(userId)
+                if (localAppointment != null) {
+                    displayAppointmentFromEntity(localAppointment)
+                    Log.d("Home", "✅ Loaded appointment from local database (OFFLINE)")
+                } else {
+                    showNoAppointments()
+                    Log.d("Home", "No local appointments found")
+                }
+            } catch (e: Exception) {
+                Log.e("Home", "Error loading local appointments: ${e.message}")
+                showNoAppointments()
+            }
+        }
+
+        // 🔥 SECOND: Fetch fresh data from API and sync to database
         val url = "$BASE_URL/get_upcoming_appointments.php"
         val jsonObject = JSONObject().apply {
             put("user_id", userId)
         }
 
-        Log.d("Home", "Loading appointments for user_id: $userId")
+        Log.d("Home", "Syncing appointments from API...")
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, jsonObject,
@@ -262,28 +285,77 @@ class Home : AppCompatActivity() {
                     if (response.getBoolean("success")) {
                         val dataArray = response.getJSONArray("data")
 
-                        if (dataArray.length() > 0) {
-                            // Show first upcoming appointment
-                            val appointment = dataArray.getJSONObject(0)
-                            displayAppointment(appointment)
-                        } else {
-                            showNoAppointments()
+                        lifecycleScope.launch {
+                            val appointments = mutableListOf<AppointmentEntity>()
+
+                            for (i in 0 until dataArray.length()) {
+                                val appointmentJson = dataArray.getJSONObject(i)
+                                val entity = appointmentRepository.convertToEntity(appointmentJson, userId)
+                                appointments.add(entity)
+                            }
+
+                            // Save all appointments to local database
+                            if (appointments.isNotEmpty()) {
+                                appointmentRepository.saveAppointmentsLocally(appointments)
+                                Log.d("Home", "✅ Synced ${appointments.size} appointments to database")
+
+                                // Update UI with latest data
+                                displayAppointmentFromEntity(appointments[0])
+                            } else {
+                                showNoAppointments()
+                            }
                         }
                     } else {
-                        showNoAppointments()
+                        Log.d("Home", "API returned no appointments - keeping local data")
                     }
                 } catch (e: Exception) {
                     Log.e("Home", "Error parsing appointments: ${e.message}")
-                    showNoAppointments()
                 }
             },
             { error ->
-                Log.e("Home", "Network error loading appointments: ${error.message}")
-                showNoAppointments()
+                Log.e("Home", "Network error (showing offline data): ${error.message}")
             }
         )
 
         requestQueue.add(jsonObjectRequest)
+    }
+
+    // 🔥 NEW: Display appointment from Room database entity
+    private fun displayAppointmentFromEntity(appointment: AppointmentEntity) {
+        appointmentCard.visibility = View.VISIBLE
+        noAppointmentsText.visibility = View.GONE
+
+        // Format date and time
+        val dateTimeText = formatAppointmentDateTime(
+            appointment.appointment_date,
+            appointment.appointment_time
+        )
+        appointmentTime.text = dateTimeText
+
+        // Set doctor name and specialization
+        doctorName.text = "Checkup with Dr. ${appointment.doctor_name}"
+        clinicName.text = appointment.specialization
+
+        // Hide queue button for now
+        queueBtn.visibility = View.GONE
+
+        // Load doctor image
+        if (!appointment.profile_picture.isNullOrEmpty() && appointment.profile_picture != "null") {
+            val imageUrl = "$BASE_URL/uploads/${appointment.profile_picture}"
+            Picasso.get()
+                .load(imageUrl)
+                .placeholder(R.drawable.img)
+                .error(R.drawable.img)
+                .into(clinicImage)
+        } else {
+            clinicImage.setImageResource(R.drawable.img)
+        }
+
+        // Set click listener to view appointment details
+        appointmentCard.setOnClickListener {
+            val intent = Intent(this, UpcomingAppointments::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun displayAppointment(appointment: JSONObject) {
