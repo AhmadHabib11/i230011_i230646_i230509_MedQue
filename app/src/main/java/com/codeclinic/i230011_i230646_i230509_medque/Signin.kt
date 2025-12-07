@@ -75,6 +75,13 @@ class Signin : AppCompatActivity() {
 
                     if (success && userData != null) {
                         saveUserData(userData)
+
+                        // ✅ Register FCM Token after successful login
+                        val userId = userData.optInt("id")
+                        if (userId > 0) {
+                            FCMTokenHelper.checkAndSendPendingToken(this, userId)
+                        }
+
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                         navigateToHome(userData)
                     } else {
@@ -198,7 +205,7 @@ class Signin : AppCompatActivity() {
     private fun navigateToHome(data: JSONObject) {
         val intent = when (data.optString("user_type")) {
             "doctor" -> Intent(this, DoctorHome::class.java)
-            else -> Intent(this, home::class.java)
+            else -> Intent(this, home::class.java)  // ✅ Fix this
         }
         startActivity(intent)
         finish()
